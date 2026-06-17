@@ -1,0 +1,8 @@
+{
+	"crons": [
+		{
+			"path": "/api/cron/handle-promotions?secretKey=YOUR_API_SECRET_KEY",
+			"schedule": "1 0 * * *"
+		}
+	]
+}

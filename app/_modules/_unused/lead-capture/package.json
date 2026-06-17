@@ -1,0 +1,8 @@
+{
+	"name": "lead-capture",
+	"version": "0.9.0",
+	"description": "The lead capture module for handling user inquiries on listings",
+	"dependencies": {
+		"@radix-ui/react-accordion": "^1.2.0"
+	}
+}

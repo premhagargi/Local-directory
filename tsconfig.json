@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noErrorTruncation": true,
+    "noEmit": true,
+      "module": "esnext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "baseUrl": ".",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"],
+      "@/components/*": ["app/_components/*"],
+      "@/emails/*": ["app/_emails/*"],
+      "@/ui/*": ["app/_components/_ui/*"],
+      "@/app/*": ["app/*"],
+      "@/lib/*": ["app/_lib/*"],
+      "@/utils": ["app/_lib/utils"],
+      "@/state/*": ["app/_state/*"],
+      "@/actions/*": ["app/_actions/*"],
+      "@/types": ["app/_types/types"],
+      "@/rbac": ["app/_constants/rbac_config"],
+      "@/modules/*": ["app/_modules/*"],
+      "@/supabase-types": ["app/_types/supabase"],
+      "@/supabase-special-types": ["app/_types/supabase-queries-types"],
+      "@/constants": ["app/_constants/constants"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", "zzz_ignore", "app/_modules/_unused/**/*"]
+}

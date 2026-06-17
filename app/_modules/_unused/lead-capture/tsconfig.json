@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "../../../",
+    "rootDir": "../../../",
+    "outDir": "../../../dist/_modules/lead-capture"
+  },
+  "include": ["**/*"],
+  "exclude": ["node_modules"]
+}

@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+      --background: 0 0% 100%;
+      --background-secondary: 40 14% 96%;
+      --search-background: 0 0% 92%;
+      --search-text: 0 0% 40%;
+      --dark-foreground: 235 52% 9%;
+      --light-red-bg: 354 76% 90%;
+      --text-on-light-red: 353 69% 42%;
+      --foreground: 0 0% 20%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 346.8 77.2% 49.8%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 346.8 77.2% 49.8%;
+    --radius: 0.3rem;
+      --star-gradient-color: #ffc107; /* Default Star color */
+    }
+  
+    .dark {
+      --background: 20 14.3% 4.1%;
+      --background-secondary: 20 14.3% 4.1%;
+      --light-red-bg: 354 76% 90%;
+      --text-on-light-red: 353 69% 42%;
+      --foreground: 0 0% 95%;
+      --card: 24 9.8% 10%;
+      --card-foreground: 0 0% 95%;
+      --popover: 0 0% 9%;
+      --popover-foreground: 0 0% 95%;
+      --primary: 346.8 77.2% 49.8%;
+      --primary-foreground: 355.7 100% 97.3%;
+      --secondary: 240 3.7% 15.9%;
+      --secondary-foreground: 0 0% 98%;
+      --muted: 0 0% 15%;
+      --muted-foreground: 240 5% 64.9%;
+      --accent: 12 6.5% 15.1%;
+      --accent-foreground: 0 0% 98%;
+      --destructive: 0 62.8% 30.6%;
+      --destructive-foreground: 0 85.7% 97.3%;
+      --border: 240 3.7% 15.9%;
+      --input: 240 3.7% 15.9%;
+      --ring: 346.8 77.2% 49.8%;
+      --star-gradient-color: #ffeb3b; /* Different Star color for dark mode */
+    }
+  }
+
+/* Fade-in by Piotr Kulpinski: https://github.com/piotrkulpinski/openalternative/blob/main/LICENSE */
+/* Changes: Perspective : Negative values & no translateY */
+
+  .fade-in {
+    animation: fade-in linear forwards;
+    animation-timeline: view();
+    animation-range-start: 0;
+    animation-range-end: 15%;
+    transform-style: preserve-3d
+}
+
+@keyframes fade-in {
+    0% {
+        scale: .9;
+        opacity: 0;
+        transform: translateY(0) perspective(-250px) rotateX(-15deg)
+    }
+
+    to {
+        scale: 1;
+        opacity: 1;
+        transform: translateY(0) perspective(-500px) rotateX(0)
+    }
+}
+
+  @keyframes skew-scroll {
+    0% {
+        transform: rotatex(0) rotate(-10deg) skewX(10deg) translateZ(0) translateY(-100%)
+    }
+  
+    50% {
+        transform: rotatex(0) rotate(-10deg) skewX(10deg) translateZ(0) translateY(100%)
+    }
+  
+    100% {
+      transform: rotatex(0) rotate(-10deg) skewX(10deg) translateZ(0) translateY(-100%)
+  }
+  }
+  
+  .animate-skew-scroll {
+    animation: skew-scroll 20s linear infinite
+  }
