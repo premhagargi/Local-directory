@@ -34,6 +34,7 @@ export default {
 		extend: {
 			fontFamily: {
 				sans: ['var(--font-inter)'],
+				heading: ['var(--font-inter)'],
 			},
 			colors: {
 				'dark-gray': '#302f36',

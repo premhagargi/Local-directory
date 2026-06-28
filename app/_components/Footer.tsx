@@ -46,30 +46,18 @@ function FooterCopyright() {
 	);
 }
 
-function InternalLinkBar({
-	linkList,
-}: {
-	linkList: typeof FOOTER_NAVIGATION_LINKS;
-}) {
+function InternalLinkBar({ linkList }: { linkList: typeof FOOTER_NAVIGATION_LINKS; }) {
 	return (
-		<div
-			className={cn(
-				'mt-16 grid grid-cols-2 gap-8 xl:mt-0 col-span-2',
-				`lg:grid-cols-${Object.keys(linkList).length}`
-			)}
-		>
+		<div className="grid grid-cols-2 gap-8 lg:gap-16">
 			{Object.keys(linkList).map((category) => (
 				<div key={category}>
-					<h3 className="text-sm font-semibold leading-6 text-foreground">
+					<h3 className="text-xs font-bold uppercase tracking-wider text-foreground mb-4">
 						{capitalize(category)}
 					</h3>
-					<ul role="list" className="mt-6 space-y-4">
+					<ul role="list" className="space-y-3">
 						{linkList[category].map((link) => (
 							<li key={link.label}>
-								<Link
-									href={link.href}
-									className="text-sm leading-6 text-muted-foreground hover:underline"
-								>
+								<Link href={link.href} className="text-sm font-medium text-text-secondary hover:text-foreground transition-colors">
 									{link.label}
 								</Link>
 							</li>
@@ -89,35 +77,37 @@ function InternalLinkBar({
 export default function Footer() {
 	return (
 		<footer
-			className="relative w-full pt-10 z-20 bg-background-secondary"
+			className="relative w-full pt-16 pb-8 z-20 bg-background border-t border-border mt-auto"
 			aria-labelledby="footer-heading"
 		>
 			<h2 id="footer-heading" className="sr-only">
 				Footer
 			</h2>
-			<div className="mx-auto max-w-7xl px-4 lg:px-12 pt-16">
-				<div className="md:grid md:grid-cols-4 xl:gap-8">
-					<div className="pr-12 col-span-2">
-						<Image
-							className="h-auto w-48 dark:hidden"
-							src="/logos/logo_for_light.png"
-							width={150}
-							height={100}
-							alt={`${COMPANY_BASIC_INFORMATION.NAME} Logo Dark on transparent background`}
-						/>
-						<Image
-							className="h-auto w-48 hidden dark:block"
-							src="/logos/logo_for_dark.png"
-							width={150}
-							height={100}
-							alt={`${COMPANY_BASIC_INFORMATION.NAME} Logo White on transparent background`}
-						/>
-						<p className="text-sm leading-6 text-muted-foreground py-6">
+			<div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
+				<div className="flex flex-col md:flex-row justify-between gap-12">
+					<div className="max-w-xs">
+						<Link href="/">
+							<Image
+								className="h-8 w-auto dark:hidden"
+								src="/logos/logo_for_light.png"
+								width={150}
+								height={100}
+								alt={`${COMPANY_BASIC_INFORMATION.NAME} Logo`}
+							/>
+							<Image
+								className="h-8 w-auto hidden dark:block"
+								src="/logos/logo_for_dark.png"
+								width={150}
+								height={100}
+								alt={`${COMPANY_BASIC_INFORMATION.NAME} Logo Dark`}
+							/>
+						</Link>
+						<p className="mt-6 text-sm leading-relaxed text-text-secondary">
 							{FOOTER_SLOGAN}
 						</p>
 
 						<SocialFollowBar
-							className="text-sm text-foreground"
+							className="text-foreground mt-6"
 							direction="horizontal"
 							size="sm"
 						/>

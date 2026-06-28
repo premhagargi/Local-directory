@@ -85,119 +85,83 @@ export default function Navbar_Public() {
 	return (
 		<Disclosure
 			as="nav"
-			className="w-full sticky top-0 z-50  dark:bg-black bg-white px-4 py-2 xl:px-0"
+			className="w-full sticky top-0 z-50 bg-background/70 dark:bg-[#0b1120]/80 backdrop-blur-xl border-b border-border/50 px-4 xl:px-0 h-[64px] flex items-center transition-all duration-300"
 		>
 			{({ open }) => (
-				<>
-					<div className="max-w-7xl mx-auto h-full grid grid-rows-2 md:grid-rows-1">
-						<div className="flex items-center justify-between  py-2">
-							<div className="flex items-center">
-								{/* Desktop Nav */}
-								{/* Logo */}
-								<div className="items-center h-auto w-32 md:w-48">
-									<Link href="/">
-										<Image
-											src="/logos/logo_for_light.png"
-											alt={`${COMPANY_BASIC_INFORMATION.NAME} Logo Light Mode`}
-											width={640}
-											height={107}
-											className="h-auto dark:hidden"
-											priority
-										/>
-										<Image
-											src="/logos/logo_for_dark.png"
-											alt={`${COMPANY_BASIC_INFORMATION.NAME} Logo Dark Mode`}
-											width={640}
-											height={107}
-											className="hidden  dark:inline"
-											priority
-										/>
-									</Link>
-								</div>
-								{/* Navbar_PublicItems */}
-							</div>
-							<div className="w-full flex-grow" />
+				<div className="w-full">
+					<div className="w-full max-w-7xl mx-auto h-full flex justify-between items-center">
+						{/* Logo */}
+						<div className="flex items-center z-20">
+							<Link href="/">
+								<Image
+									src="/logos/logo_for_light.png"
+									alt={`${COMPANY_BASIC_INFORMATION.NAME} Logo`}
+									width={140}
+									height={40}
+									className="h-8 w-auto dark:hidden"
+									priority
+								/>
+								<Image
+									src="/logos/logo_for_dark.png"
+									alt={`${COMPANY_BASIC_INFORMATION.NAME} Logo Dark`}
+									width={140}
+									height={40}
+									className="h-8 w-auto hidden dark:inline"
+									priority
+								/>
+							</Link>
+						</div>
 
+						{/* Desktop Navigation Centered */}
+						<div className="hidden lg:flex items-center justify-center gap-x-8 absolute left-1/2 -translate-x-1/2 w-full max-w-md pointer-events-none">
+							<div className="pointer-events-auto flex items-center gap-x-8">
+								{NAVBAR_ADD_LINKS.map(
+									(link) =>
+										(GENERAL_SETTINGS.USE_SUBLISTINGS ||
+											(!GENERAL_SETTINGS.USE_SUBLISTINGS &&
+												link.name !== 'Products')) && (
+											<Link
+												key={link.name}
+												href={link.href}
+												className="text-sm font-medium text-text-secondary hover:text-foreground dark:text-gray-300 dark:hover:text-white transition-colors"
+											>
+												{link.name}
+											</Link>
+										)
+								)}
+							</div>
+						</div>
+
+						{/* Right section: Search + Actions */}
+						<div className="flex items-center gap-3 z-20">
 							<Searchbar
-								placeholder="Search by name.."
-								className="hidden md:block w-full px-4"
+								placeholder="Search..."
+								className="hidden md:block w-48 lg:w-64 h-9"
 								id="nav_search"
 								rootPage="/explore"
 							/>
-
-							<div className="flex items-center justify-end lg:max-w-fit whitespace-nowrap ">
-								<div className="hidden items-center lg:flex lg:gap-x-1">
-									{NAVBAR_ADD_LINKS.map(
-										(link) =>
-											(GENERAL_SETTINGS.USE_SUBLISTINGS ||
-												(!GENERAL_SETTINGS.USE_SUBLISTINGS &&
-													link.name !== 'Products')) && (
-												<div
-													key={link.name}
-													className="group relative flex items-center rounded-lg p-2 text-sm leading-6"
-												>
-													<div className="flex">
-														<Link
-															href={link.href}
-															className="hover:underline text-muted-foreground"
-														>
-															{link.name}
-														</Link>
-													</div>
-												</div>
-											)
-									)}
-								</div>
-
-								<Link
-									href={'/propose'}
-									className={cn(
-										buttonVariants({ variant: 'outline', size: 'sm' }),
-										'bg-dark-foreground hover:bg-dark-foreground/80 rounded-full text-white hover:text-white py-4'
-									)}
-									prefetch={false}
-									data-umami-event="Navbar: Submit a Business"
-								>
-									+ Submit a Business
-								</Link>
-
-								<div className="pointer-events-auto border-gray-500 flex flex-nowrap items-center justify-end">
-									<ModeToggle />
-									{GENERAL_SETTINGS.USE_PUBLISH && (
-										<>
-											<Link
-												href={'/account'}
-												className="hover:underline text-muted-foreground text-sm"
-												prefetch={false}
-												data-umami-event="Navbar: Account"
-											>
-												<UserCircleIcon size={22} />
-												<span className="sr-only">Account</span>
-											</Link>
-											{process.env.NODE_ENV === 'development' && (
-												<Link
-													href={'/secret-admin'}
-													className={cn(
-														buttonVariants({
-															variant: 'default',
-															size: 'sm',
-														}),
-														'absolute top-40 md:top-20 right-4'
-													)}
-													prefetch={false}
-												>
-													Admin
-												</Link>
-											)}
-										</>
-									)}
-								</div>
+							<Link
+								href="/propose"
+								className={cn(
+									buttonVariants({ variant: 'default', size: 'sm' }),
+									'hidden sm:flex rounded-full px-5 py-2 font-medium shadow-sm hover:shadow-md transition-all h-9'
+								)}
+								prefetch={false}
+							>
+								Submit
+							</Link>
+							<div className="flex items-center gap-1 border-l pl-3 ml-1 border-border">
+								<ModeToggle />
+								{GENERAL_SETTINGS.USE_PUBLISH && (
+									<Link href="/account" className="text-muted-foreground hover:text-foreground transition-colors p-2">
+										<UserCircleIcon size={22} />
+									</Link>
+								)}
 							</div>
-						</div>
-						<div className="md:hidden flex justify-between items-center py-2">
-							<div className="-ml-2 mr-2 flex items-center lg:hidden">
-								{/* Mobile menu button */}
-								<Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-black dark:hover:bg-neutral-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+
+							{/* Mobile menu button */}
+							<div className="flex lg:hidden ml-1">
+								<Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:text-foreground focus:outline-none">
 									<span className="absolute -inset-0.5" />
 									<span className="sr-only">Open main menu</span>
 									{open ? (
@@ -207,23 +171,26 @@ export default function Navbar_Public() {
 									)}
 								</Disclosure.Button>
 							</div>
-							<Searchbar
-								placeholder="Listings.."
-								className="w-full"
-								id="nav_search_mobile"
-							/>
 						</div>
 					</div>
 
-					{/* Mobile menu, show/hide based on menu open state.*/}
-					<Disclosure.Panel className="lg:hidden bg-white dark:bg-black">
+					{/* Mobile menu */}
+					<Disclosure.Panel className="lg:hidden absolute top-[64px] left-0 w-full bg-background/95 dark:bg-[#0b1120]/95 backdrop-blur-xl border-b border-border/50 shadow-lg z-40">
 						{({ close }) => (
-							<div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
+							<div className="space-y-1 px-4 pb-4 pt-2">
+								<div className="pb-4">
+									<Searchbar
+										placeholder="Search..."
+										className="w-full"
+										id="nav_search_mobile"
+										rootPage="/explore"
+									/>
+								</div>
 								{NAVBAR_ADD_LINKS.map((link) => (
-									<Disclosure.Button key={link.name} className="block w-full">
+									<Disclosure.Button key={link.name} className="block w-full text-left">
 										<Link
 											href={link.href}
-											className="hover:bg-black dark:hover:bg-neutral-800 hover:text-white dark:text-white block rounded-md px-3 py-2 text-base font-medium"
+											className="hover:bg-neutral-100 dark:hover:bg-neutral-800 text-foreground block rounded-md px-3 py-3 text-base font-medium"
 											onClick={() => close()}
 										>
 											{link.name}
@@ -231,29 +198,31 @@ export default function Navbar_Public() {
 									</Disclosure.Button>
 								))}
 								{GENERAL_SETTINGS.USE_PUBLISH && (
-									<Disclosure.Button className="block w-full">
-										<Link
-											href={'/account/new-listing'}
-											className="hover:bg-black dark:hover:bg-neutral-800 hover:text-white dark:text-white block rounded-md px-3 py-2 text-base font-medium"
-											onClick={() => close()}
-											prefetch={false}
-										>
-											Submit a listing
-										</Link>
-										<Link
-											href={'/account'}
-											className="hover:bg-black dark:hover:bg-neutral-800 hover:text-white dark:text-white block rounded-md px-3 py-2 text-base font-medium"
-											onClick={() => close()}
-											prefetch={false}
-										>
-											Account
-										</Link>
-									</Disclosure.Button>
+									<>
+										<Disclosure.Button className="block w-full text-left">
+											<Link
+												href="/propose"
+												className="hover:bg-neutral-100 dark:hover:bg-neutral-800 text-accent block rounded-md px-3 py-3 text-base font-medium"
+												onClick={() => close()}
+											>
+												Submit a listing
+											</Link>
+										</Disclosure.Button>
+										<Disclosure.Button className="block w-full text-left">
+											<Link
+												href="/account"
+												className="hover:bg-neutral-100 dark:hover:bg-neutral-800 text-foreground block rounded-md px-3 py-3 text-base font-medium"
+												onClick={() => close()}
+											>
+												Account
+											</Link>
+										</Disclosure.Button>
+									</>
 								)}
 							</div>
 						)}
 					</Disclosure.Panel>
-				</>
+				</div>
 			)}
 		</Disclosure>
 	);

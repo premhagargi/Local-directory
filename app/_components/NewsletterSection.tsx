@@ -72,57 +72,47 @@ export default function NewsletterBox_BeeHiiv({
 	 * Size=lg will render the NewsletterBox Section with a large size, with title, description and full disclaimer.
 	 */
 	return (
-		<SubSectionOuterContainer
+		<div
 			id="newsletter"
-			className={cn('px-0 py-0', className)}
+			className={cn('w-full', className)}
 		>
-			<SubSectionInnerContainer>
-				<SubSectionContentContainer className="mt-0">
-					<div className="pt-10 md:pt-20 pb-6 md:pb-12 px-10 md:px-20 bg-background-secondary text-foreground md:rounded-xl relative">
-						<div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-8">
-							<div className="space-y-2">
-								<div className="m-auto max-w-4xl text-3xl font-bold tracking-tight sm:text-4xl">
-									<h2 className="flex">{title}</h2>
-								</div>
-								<div className="mx-auto w-full">
-									<p className="text-base">{description}</p>
-								</div>
-								<p className="text-sm italic leading-6">
-									{disclaimer}{' '}
-									<Link
-										href={linkToPrivacyPolicy}
-										className="font-semibold underline"
-									>
-										{textForPrivacyPolicy}
-									</Link>
-								</p>
-							</div>
-
-							<div className="m-auto mt-4 w-full max-w-lg">
-								<div className="flex gap-x-4">
-									<label htmlFor="email-address" className="sr-only">
-										Email address
-									</label>
-								</div>
-								{hasCookieConsent === true ? (
-									<Iframe
-										title="Newsletter Signup"
-										url={beeHiivEmbedUrl}
-										data-test-id="beehiiv-embed"
-										className="h-auto overflow-y-hidden w-full"
-									/>
-								) : (
-									<CookieConsentButton_Accept
-										buttonText="Accept Cookies to display Newsletter Signup"
-										className="h-20 w-full"
-										variant="default"
-									/>
-								)}
-							</div>
+			<div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+				<div className="bg-background-secondary rounded-3xl p-8 md:p-16 lg:p-20 overflow-hidden relative border border-border">
+					<div className="mx-auto max-w-2xl text-center flex flex-col items-center">
+						<h2 className="text-3xl md:text-5xl font-heading font-extrabold tracking-tight text-foreground mb-4">
+							{title}
+						</h2>
+						<p className="text-lg text-text-secondary mb-8">
+							{description}
+						</p>
+						<div className="w-full max-w-md mx-auto">
+							{hasCookieConsent === true ? (
+								<Iframe
+									title="Newsletter Signup"
+									url={beeHiivEmbedUrl}
+									data-test-id="beehiiv-embed"
+									className="h-[60px] overflow-hidden w-full bg-transparent"
+								/>
+							) : (
+								<CookieConsentButton_Accept
+									buttonText="Accept Cookies to display Newsletter Signup"
+									className="h-12 w-full"
+									variant="default"
+								/>
+							)}
 						</div>
+						<p className="mt-4 text-xs text-muted-foreground">
+							{disclaimer}{' '}
+							<Link
+								href={linkToPrivacyPolicy}
+								className="font-medium hover:text-foreground transition-colors"
+							>
+								{textForPrivacyPolicy}
+							</Link>
+						</p>
 					</div>
-				</SubSectionContentContainer>
-			</SubSectionInnerContainer>
-		</SubSectionOuterContainer>
+				</div>
+			</div>
+		</div>
 	);
 }

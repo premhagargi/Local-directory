@@ -52,7 +52,7 @@ import {
 import generateListingDescriptionWithAi from '@/actions/listings/generateListingDescriptionWithAi';
 import insertActivity from '@/actions/activites/insertActivity';
 import upsertListing from '@/actions/listings/upsertListing';
-import { isValidUrl, arraysEqual } from '@/lib/utils';
+import { isValidUrl, arraysEqual, cn } from '@/lib/utils';
 import { toast } from '@/lib/useToaster';
 // Import Data
 import { COMPANY_BASIC_INFORMATION, GENERAL_SETTINGS } from '@/constants';
@@ -62,6 +62,7 @@ import { LoaderCircleIcon } from 'lucide-react';
 const ListingFormSchema = z.object({
 	id: z.optional(z.string()),
 	title: z.string().min(2, { message: 'Should at least 2 characters long' }),
+	tagline: z.string().max(120, { message: 'Max 120 characters' }).optional(),
 	excerpt: z
 		.string()
 		.min(20, { message: 'Should be at least 20 characters long' })
@@ -165,6 +166,7 @@ export default function ListingEditor({
 		defaultValues: {
 			id: listing?.id ?? '',
 			title: listing?.title ?? '',
+			tagline: listing?.tagline ?? '',
 			description: listing?.description ?? '',
 			excerpt: listing?.excerpt ?? '',
 			click_url: listing?.click_url ?? '',
@@ -383,6 +385,28 @@ export default function ListingEditor({
 											<Input placeholder="Title" {...field} />
 										</FormControl>
 
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name="tagline"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Tagline</FormLabel>
+										<FormDescription>
+											One sentence describing your product.
+										</FormDescription>
+										<FormControl>
+											<Input placeholder="Discover the best AI tools in one place." {...field} />
+										</FormControl>
+										<p
+											className={cn(
+												'text-xs italic float-right text-muted-foreground mr-1',
+												field.value && field.value.length > 120 && 'text-red-600'
+											)}
+										>{`${field.value?.length || 0} / 120`}</p>
 										<FormMessage />
 									</FormItem>
 								)}

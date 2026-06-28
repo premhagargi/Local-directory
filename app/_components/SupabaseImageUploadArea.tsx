@@ -80,19 +80,26 @@ export default function SupabaseImageUploadArea({
 			}
 
 			const file = event.target.files[0];
-			const fileExt = file.name.split('.').pop();
-			const filePath = `${uid}-${Math.random()}.${fileExt}`;
+			const formData = new FormData();
+			formData.append('file', file);
+			formData.append('uid', uid || 'guest');
+			formData.append('folder', database);
 
-			const { error: uploadError } = await supabase.storage
-				.from(database)
-				.upload(filePath, file);
+			const response = await fetch('/api/upload', {
+				method: 'POST',
+				body: formData,
+			});
 
-			if (uploadError) {
-				throw uploadError;
+			if (!response.ok) {
+				throw new Error('Failed to upload image to R2');
 			}
 
-			onUpload(filePath);
+			const data = await response.json();
+			if (data.error) throw new Error(data.error);
+
+			onUpload(data.filePath);
 		} catch (error) {
+			console.error(error);
 			alert(
 				'Error uploading image. File too big or wrong format. Only .png or .jpg!'
 			);
@@ -113,18 +120,24 @@ export default function SupabaseImageUploadArea({
 				type: 'image/jpeg',
 			});
 
-			const fileExt = file.name.split('.').pop();
-			const filePath = `${uid}-${Math.random()}.${fileExt}`;
+			const formData = new FormData();
+			formData.append('file', file);
+			formData.append('uid', uid || 'guest');
+			formData.append('folder', database);
 
-			const { error: uploadError } = await supabase.storage
-				.from(database)
-				.upload(filePath, file);
+			const uploadResponse = await fetch('/api/upload', {
+				method: 'POST',
+				body: formData,
+			});
 
-			if (uploadError) {
-				throw uploadError;
+			if (!uploadResponse.ok) {
+				throw new Error('Failed to upload image to R2');
 			}
 
-			onUpload(filePath);
+			const data = await uploadResponse.json();
+			if (data.error) throw new Error(data.error);
+
+			onUpload(data.filePath);
 		} catch (error) {
 			console.error('Error fetching image: ', error);
 			alert('Error fetching image. Please try again.');

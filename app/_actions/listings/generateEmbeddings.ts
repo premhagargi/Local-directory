@@ -41,6 +41,11 @@ export default async function generateEmbeddings({
 		if (!title) {
 			throw new BadRequestError('Invalid fields to handle feedback.');
 		}
+		if (!process.env.OPENAI_API_KEY) {
+			console.warn('OPENAI_API_KEY is missing. Skipping embeddings generation.');
+			// Return a dummy 1536-dimensional zero vector for pgvector
+			return handleServerSuccess(new Array(1536).fill(0));
+		}
 		let listingDescriptor = cleanMDXContent(
 			`${title} ${description} ${excerpt}`
 		);

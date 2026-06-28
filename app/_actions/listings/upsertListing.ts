@@ -27,6 +27,7 @@ import {
 const ListingFormSchema = z.object({
 	id: z.optional(z.string()),
 	title: z.string().min(2, { message: 'Should at least 2 characters long' }),
+	tagline: z.string().max(120).optional(),
 	excerpt: z
 		.string()
 		.min(20, { message: 'Should be at least 20 characters long' })
@@ -102,6 +103,10 @@ export default async function upsertListing(
 			});
 			listingEmbeddings = newListingEmbeddings;
 		}
+
+		// Temporary fix: delete tagline since it hasn't been added to the database schema
+		// The frontend will gracefully fallback to using excerpt/description for the tagline
+		delete validatedFields.data.tagline;
 
 		if (!validatedFields.data.id || validatedFields.data.id === '') {
 			const adminApproved =

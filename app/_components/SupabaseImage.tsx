@@ -50,37 +50,22 @@ export default function SupabaseImage({
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
-		async function downloadImage(path: string) {
-			setIsLoading(true);
-			try {
-				const { data, error } = await supabase.storage
-					.from(database)
-					.download(path);
-				if (error) {
-					setIsLoading(false);
-					throw error;
-				}
-
-				const url = URL.createObjectURL(data);
-				setImageURL(url);
-				setIsLoading(false);
-			} catch (error) {
-				console.error('Error downloading image: ', error);
-				setIsLoading(false);
-			}
-		}
-
 		if (dbImageUrl) {
 			const isLocalImage = DEFAULT_IMAGE_OPTIONS.find(
 				(localImage) => localImage.nameInDB === dbImageUrl
 			);
 			if (isLocalImage) {
 				setImageURL(isLocalImage.localHref);
+			} else if (dbImageUrl.startsWith('http')) {
+				// Handle dummy images and absolute URLs
+				setImageURL(dbImageUrl);
 			} else {
-				downloadImage(dbImageUrl);
+				// R2 public bucket path
+				const r2Url = process.env.NEXT_PUBLIC_R2_PUBLIC_URL || '';
+				setImageURL(`${r2Url}/${dbImageUrl}`);
 			}
 		}
-	}, [dbImageUrl, supabase, database]);
+	}, [dbImageUrl, database]);
 
 	return (
 		<Image

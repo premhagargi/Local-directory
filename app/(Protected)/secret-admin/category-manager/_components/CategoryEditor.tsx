@@ -40,6 +40,7 @@ import upsertCategory from '@/actions/categories/upsertCategory';
 // Import Data
 // Import Assets & Icons
 import { SparklesIcon } from 'lucide-react';
+import { IconPicker } from '@/components/_ui/IconPicker';
 
 const CategoryFormSchema = z.object({
 	id: z.optional(z.string()),
@@ -55,6 +56,7 @@ const CategoryFormSchema = z.object({
 	image_url_hero: z.optional(z.string()),
 	image_url_small: z.optional(z.string()),
 	emoji: z.optional(z.string()),
+	icon: z.optional(z.string()),
 	href: z.optional(z.string()),
 	color: z.optional(z.string()),
 });
@@ -82,6 +84,7 @@ export default function CategoryEditor({
 			image_url_hero: category?.image_url_hero || '',
 			image_url_small: category?.image_url_small || '',
 			emoji: category?.emoji || '',
+			icon: category?.icon || '',
 			href: category?.href || '',
 			color: category?.color || '',
 		},
@@ -419,6 +422,32 @@ export default function CategoryEditor({
 											</Popover>
 										</div>
 
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							<FormField
+								control={form.control}
+								name="icon"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Lucide Icon</FormLabel>
+										<FormDescription>
+											Select a Lucide icon for this category. Fallbacks to Folder if left empty.
+										</FormDescription>
+										<FormControl>
+											<IconPicker
+												value={field.value || ''}
+												onChange={(val) => {
+													setValue('icon', val, {
+														shouldValidate: true,
+														shouldDirty: true,
+														shouldTouch: true,
+													});
+												}}
+											/>
+										</FormControl>
 										<FormMessage />
 									</FormItem>
 								)}

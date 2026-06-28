@@ -3,6 +3,7 @@ import { ListingType, AuthUserType } from '@/supabase-special-types';
 // Import External Packages
 // Import Components
 import SupabaseImage from '@/components/SupabaseImage';
+import Link from 'next/link';
 import {
 	ImageCard,
 	ImageCardFooter,
@@ -37,61 +38,66 @@ export default function ListingCard({
 				GENERAL_SETTINGS.MAX_NUM_DAY_AGE_FOR_NEW_BADGE * 24 * 60 * 60 * 1000
 		);
 	return (
-		<ImageCard
-			linkHover
-			className="border-1 border-transparent fade-in bg-transparent shadow-none group "
-		>
-			<ImageCardImageContainer className="rounded-lg aspect-video w-auto">
+		<div className="group relative flex flex-col fade-in">
+			<Link href={`/explore/${listing.slug}`} className="absolute inset-0 z-10">
+				<span className="sr-only">View {listing.title}</span>
+			</Link>
+			
+			{/* Screenshot Container - Large rounded like AppStacks */}
+			<div className="relative w-full rounded-2xl overflow-hidden mb-4 bg-neutral-200 dark:bg-neutral-800 aspect-[4/3]">
 				<SupabaseImage
 					dbImageUrl={listing.default_image_url}
-					width={1600}
-					height={900}
+					width={800}
+					height={600}
 					database="listing_images"
 					priority
-					className="group-hover:scale-105 transition-transform duration-300 h-full w-full"
+					className="w-full h-full object-cover"
 				/>
 
-				<ImageCardBanner className="flex gap-2 bg-transparent" location="tr">
-					{listing.is_promoted && (
-						<span className="bg-green-400/60 text-green-800 rounded-sm w-fit px-1 text-sm tracking-tight">
-							Promoted
-						</span>
-					)}
+				{/* Status badges inside top-right like AppStacks */}
+				<div className="absolute top-3 right-3 flex gap-2 z-20">
 					{listing.created_at && isNew && (
-						<span className="bg-light-red-bg text-text-on-light-red rounded-sm w-fit px-1 text-sm tracking-tight">
-							New
+						<span className="bg-white/90 backdrop-blur-sm text-foreground font-medium rounded-full px-3 py-1 text-xs border border-border/50">
+							New release
 						</span>
 					)}
-					{listing.owner_id && (
-						<span className="bg-transparent">
-							<BadgeCheckIcon className="h-5 w-5 text-green-500" />
+					{listing.is_promoted && (
+						<span className="bg-white/90 backdrop-blur-sm text-foreground font-medium rounded-full px-3 py-1 text-xs border border-border/50">
+							Featured
 						</span>
 					)}
-				</ImageCardBanner>
-
-				<ImageCardLink
-					href={`/explore/${listing.slug}`}
-					data-umami-event="Listing Card"
-					data-umami-event-listing={listing.slug}
-				/>
-			</ImageCardImageContainer>
-
-			<ImageCardFooter className="flex flex-col relative w-full overflow-hidden bg-transparent p-0 pt-2">
-				<ImageCardLink
-					href={`/explore/${listing.slug}`}
-					data-umami-event="Listing Card"
-					data-umami-event-listing={listing.slug}
-				/>
-
-				<div className="relative w-full gap-x-2 flex text-sm items-center text-muted-foreground">
-					{!!listing.category?.name && <p>{listing.category?.name}</p>}
 				</div>
+			</div>
 
-				<div className="flex justify-between h-14 overflow-hidden w-full">
-					<ImageCardTitle>{listing.title}</ImageCardTitle>
-					<ListingCardCoupon listing={listing} user={user} />
+			{/* App info row - Icon + Title + Tagline (AppStacks style) */}
+			<div className="flex items-start gap-3 relative z-20 pointer-events-none">
+				{/* App Icon */}
+				{listing.logo_image_url ? (
+					<div className="w-10 h-10 rounded-xl overflow-hidden bg-neutral-100 dark:bg-neutral-800 flex-shrink-0 border border-border/50">
+						<SupabaseImage
+							dbImageUrl={listing.logo_image_url}
+							width={40}
+							height={40}
+							database="listing_images"
+							className="w-full h-full object-cover"
+						/>
+					</div>
+				) : (
+					<div className="w-10 h-10 rounded-xl bg-neutral-200 dark:bg-neutral-700 flex items-center justify-center flex-shrink-0">
+						<span className="text-sm font-bold text-foreground">{listing.title.charAt(0)}</span>
+					</div>
+				)}
+
+				{/* Title + Tagline */}
+				<div className="min-w-0 flex-grow">
+					<h3 className="text-base font-bold text-foreground line-clamp-1 leading-snug">
+						{listing.title}
+					</h3>
+					<p className="text-sm text-text-secondary line-clamp-1 mt-0.5">
+						{listing.tagline || listing.excerpt || listing.description}
+					</p>
 				</div>
-			</ImageCardFooter>
-		</ImageCard>
+			</div>
+		</div>
 	);
 }

@@ -214,6 +214,11 @@ export default async function SublistingPage({ params }: Props) {
 							</Link>
 
 							<SectionTitle>{sublisting.title}</SectionTitle>
+							{listingData?.tagline && (
+								<p className="text-xl md:text-2xl font-heading text-muted-foreground mt-2 mb-4 leading-relaxed">
+									{listingData.tagline}
+								</p>
+							)}
 
 							<SublistingActionBar
 								sublisting={sublisting}

@@ -55,10 +55,9 @@ export default function ListingGrid({
 					className="bg-white w-fit h-fit mx-auto col-span-full"
 				>
 					<AlertCircle className="h-4 w-4" />
-					<AlertTitle>Ohh!</AlertTitle>
+					<AlertTitle>No listings found</AlertTitle>
 					<AlertDescription>
-						It seems like we did not find any listings given search parameters.{' '}
-						<br /> Please change your filters. Thank you!
+						There are currently no listings available in this category.
 					</AlertDescription>
 				</Alert>
 			) : (
@@ -86,7 +85,7 @@ export default function ListingGrid({
 						</Alert>
 					) : (
 						<div
-							className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-8 lg:grid-cols-${maxCols.toString()} w-full`}
+							className={`grid grid-cols-1 md:grid-cols-2 gap-y-12 gap-x-8 w-full ${maxCols >= 3 ? 'xl:grid-cols-3' : ''}`}
 						>
 							{currentData.map((listing) => (
 								<ListingCard key={listing.slug} listing={listing} user={user} />
