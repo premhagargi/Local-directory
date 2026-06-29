@@ -8,7 +8,6 @@ import { Suspense } from 'react';
 
 // Import Components
 import SublistingCard from '@/components/sublistings/SublistingCard';
-import CommentSystem from '@/components/comments/CommentSystem';
 import ExternalLinkButton from '@/components/sublistings/ExternalLinkButton';
 import { useMDXComponents } from '@/mdx-components';
 import SupabaseImage from '@/components/SupabaseImage';
@@ -35,7 +34,6 @@ import getPublishedListingById from '@/actions/listings/getPublishedListingById'
 import createMetaData from '@/lib/createMetaData';
 import createSupabaseBrowserClient from '@/lib/createSupabaseBrowserClient';
 import { cn, stringToSlug } from '@/utils';
-import getCommentsByCategoryAndId from '@/actions/comments/getCommentsByCategoryAndId';
 // Import Data
 import { COMPANY_BASIC_INFORMATION, GENERAL_SETTINGS } from '@/constants';
 // Import Assets & Icons
@@ -132,194 +130,142 @@ export default async function SublistingPage({ params }: Props) {
 		sublisting.id
 	);
 
-	const { data: comments } = await getCommentsByCategoryAndId(
-		'sublisting_id',
-		sublisting.id
-	);
-
 	if (!('id' in listingData)) return notFound();
 
 	return (
 		<SectionOuterContainer className="bg-background-secondary">
 			<SubSectionOuterContainer>
-				<SubSectionInnerContainer className="max-w-7xl">
-					<Breadcrumps />
+				<SubSectionInnerContainer className="max-w-7xl items-center">
+					<div className="w-full self-start">
+						<Breadcrumps />
+					</div>
 
-					<div className="max-w-7xl grid grid-cols-1 md:grid-cols-5 mx-auto md:gap-x-4">
-						<div className="col-span-3">
-							<hr className="border-accent-2 my-2 md:hidden" />
-							<h3 className="text-lg font-semibold text-foreground md:hidden py-1">
-								ABOUT THIS PRODUCT
-							</h3>
+					{/* Centered Top Content (Logo, Title, Tags, Action Buttons) */}
+					<div className="w-full max-w-4xl self-center mx-auto mt-6 mb-8 px-4 flex flex-col items-center text-center">
+						{listingData?.logo_image_url && (
 							<SupabaseImage
-								dbImageUrl={sublisting.default_image_url}
-								width={800}
-								height={450}
-								database="sublisting_images"
+								dbImageUrl={listingData.logo_image_url}
+								width={100}
+								height={100}
+								database="listing_images"
 								priority
-								className="w-full min-h-0 max-h-96 aspect-square rounded-lg hidden md:block"
+								className="h-20 w-20 rounded-[14px] object-cover shadow-sm mb-4"
 							/>
+						)}
 
-							{GENERAL_SETTINGS.USE_VIEW && (
-								<ViewPixelSublisting sublistingId={sublisting.id} />
-							)}
+						<Link
+							href={`/products?subcategory=${stringToSlug(
+								sublisting.subcategory?.slug || ''
+							)}`}
+							key={sublisting.subcategory_id}
+							className="uppercase text-muted-foreground text-sm font-semibold tracking-wider mb-2"
+						>
+							{sublisting.subcategory.name}
+						</Link>
 
-							<div className="flex gap-1 w-fit my-2 flex-wrap">
-								{sublisting &&
-									sublisting?.subtags?.map((tag) => (
-										<Link
-											href={`/explore?tags=${stringToSlug(tag.name!)}`}
-											key={tag.name}
-										>
-											<Badge
-												variant="outline"
-												className="z-50   hover:border-slate-500 whitespace-nowrap bg-neutral-200 dark:bg-background-secondary"
-											>
-												{tag.name}
-											</Badge>
-										</Link>
-									))}
-							</div>
+						<SectionTitle className="mb-2">{sublisting.title}</SectionTitle>
 
-							<SectionDescription>{sublisting.excerpt}</SectionDescription>
+						{listingData?.tagline && (
+							<p className="text-xl md:text-2xl font-heading text-muted-foreground mt-2 mb-4 leading-relaxed max-w-2xl">
+								{listingData.tagline}
+							</p>
+						)}
 
-							<hr className="border-accent-2 my-8" />
-
-							<article className="prose dark:prose-invert xl:prose-xl text-justify max-w-none">
-								<ArticleContent
-									source={sublisting.description}
-									components={{
-										...useMDXComponents,
-									}}
-								/>
-							</article>
+						<div className="flex flex-wrap gap-2 justify-center mb-6">
+							{sublisting?.subtags?.map((tag) => (
+								<Link
+									href={`/explore?tags=${stringToSlug(tag.name!)}`}
+									key={tag.name}
+								>
+									<Badge
+										variant="outline"
+										className="z-50 hover:border-slate-500 whitespace-nowrap bg-neutral-200 dark:bg-background-secondary"
+									>
+										{tag.name}
+									</Badge>
+								</Link>
+							))}
+							{listingData?.tags?.map((tag) => (
+								<Link
+									href={`/explore?tags=${stringToSlug(tag.name!)}`}
+									key={tag.name}
+								>
+									<Badge
+										variant="outline"
+										className="z-50 hover:border-slate-500 whitespace-nowrap bg-neutral-200 dark:bg-background-secondary"
+									>
+										{tag.name}
+									</Badge>
+								</Link>
+							))}
 						</div>
-						<div className="col-span-2 order-first md:order-last md:px-4 space-y-2">
-							<SupabaseImage
-								dbImageUrl={sublisting.default_image_url}
-								width={800}
-								height={450}
-								database="sublisting_images"
-								priority
-								className="w-full min-h-0 max-h-96 aspect-square rounded-lg md:hidden mb-2"
-							/>
-							<Link
-								href={`/products?subcategory=${stringToSlug(
-									sublisting.subcategory?.slug || ''
-								)}`}
-								key={sublisting.subcategory_id}
-								className="uppercase text-muted-foreground"
-							>
-								{sublisting.subcategory.name}
-							</Link>
 
-							<SectionTitle>{sublisting.title}</SectionTitle>
-							{listingData?.tagline && (
-								<p className="text-xl md:text-2xl font-heading text-muted-foreground mt-2 mb-4 leading-relaxed">
-									{listingData.tagline}
-								</p>
-							)}
-
-							<SublistingActionBar
+						<div className="flex flex-wrap justify-center gap-3 w-full max-w-md mx-auto mb-6">
+							<ExternalLinkButton
 								sublisting={sublisting}
-								className="mt-4 mx-auto"
+								className="bg-dark-foreground text-white hover:opacity-90 rounded-full text-base flex-1 min-w-[140px]"
+								type="listing"
 							/>
-
-							<PriceDisplay sublisting={sublisting} increaseFontSize />
-
-							<div className="flex flex-wrap gap-1">
-								{listingData &&
-									listingData?.tags?.map((tag) => (
-										<Link
-											href={`/explore?tags=${stringToSlug(tag.name!)}`}
-											key={tag.name}
-										>
-											<Badge
-												variant="outline"
-												className="z-50  hover:border-slate-500 whitespace-nowrap bg-neutral-200 dark:bg-background-secondary"
-											>
-												{tag.name}
-											</Badge>
-										</Link>
-									))}
-							</div>
-							<div className="flex flex-nowrap py-2 gap-2 w-full">
-								<ExternalLinkButton
-									sublisting={sublisting}
-									className=" bg-dark-foreground rounded-full text-lg w-6/12"
-									type="listing"
-								/>
-								<ExternalLinkButton
-									sublisting={sublisting}
-									className="bg-transparent hover:bg-white dark:hover:text-black rounded-full text-lg w-6/12"
-									type="product"
-								/>
-							</div>
-
-							<CopyCouponCode listingData={listingData} />
-
-							{listingData && (
-								<div className="grid gap-y-2">
-									{/* 
-
-									Uncomment for Google Maps - need to add address to listing data
-
-
-									<hr className="border-accent-2 mt-2" />
-
-									<h3 className="text-lg font-semibold text-foreground  py-2">
-										SOURCE
-									</h3>
-									{listingData.address && (
-										<p className="text-sm flex items-center">
-											<MapPinIcon size={16} />
-											{listingData.address}
-										</p>
-									)}
-									<GoogleMapsBox
-										locationQuery={`${listingData.title},${listingData.category.name},USA`}
-									/>
-									*/}
-									<hr className="border-accent-2 mt-2" />
-									<h3 className="text-lg font-semibold text-foreground  py-2">
-										ABOUT VENDOR
-									</h3>
-									<div className="flex justify-between">
-										{listingData.logo_image_url && (
-											<div className="w-fit flex-shrink">
-												<SupabaseImage
-													dbImageUrl={listingData.logo_image_url}
-													width={100}
-													height={50}
-													database="listing_images"
-													priority
-													className="h-auto w-24  max-h-14"
-												/>
-											</div>
-										)}
-									</div>
-
-									<p className="text-base text-muted-foreground mt-2">
-										{listingData.excerpt}
-									</p>
-								</div>
-							)}
+							<ExternalLinkButton
+								sublisting={sublisting}
+								className="bg-transparent border border-border hover:bg-neutral-100 dark:hover:bg-neutral-800 text-foreground rounded-full text-base flex-1 min-w-[140px]"
+								type="product"
+							/>
 						</div>
+
+						<CopyCouponCode listingData={listingData} />
+
+						{GENERAL_SETTINGS.USE_VIEW && (
+							<ViewPixelSublisting sublistingId={sublisting.id} />
+						)}
+					</div>
+
+					{/* Centered Screenshot */}
+					{sublisting.default_image_url && (
+						<div className="w-full max-w-4xl self-center mx-auto mb-10 px-4">
+							<SupabaseImage
+								dbImageUrl={sublisting.default_image_url}
+								width={1200}
+								height={630}
+								database="sublisting_images"
+								priority
+								className="w-full rounded-[14px] aspect-[1.91/1] object-cover shadow-sm bg-neutral-100 dark:bg-neutral-800"
+							/>
+						</div>
+					)}
+
+					{/* Centered Description Content */}
+					<div className="w-full max-w-3xl self-center mx-auto px-4 mb-10">
+						<SublistingActionBar
+							sublisting={sublisting}
+							className="mb-8 justify-center border-y border-border/40 py-4 gap-4 flex-wrap"
+						/>
+
+						<h3 className="text-2xl font-bold text-foreground mb-4">
+							Get to know {sublisting.title}
+						</h3>
+
+						<SectionDescription className="text-lg leading-relaxed mb-6">
+							{sublisting.excerpt}
+						</SectionDescription>
+
+						{listingData?.excerpt && (
+							<p className="text-base text-muted-foreground mt-2 mb-8">
+								{listingData.excerpt}
+							</p>
+						)}
+
+						<article className="prose dark:prose-invert xl:prose-xl text-justify max-w-none mx-auto">
+							<ArticleContent
+								source={sublisting.description}
+								components={{
+									...useMDXComponents,
+								}}
+							/>
+						</article>
 					</div>
 				</SubSectionInnerContainer>
 			</SubSectionOuterContainer>
-
-			<div className="bg-white bg-background-secondary py-5">
-				<div className="max-w-5xl mx-auto">
-					<Suspense>
-						<CommentSystem
-							comments={comments}
-							blog_or_listing_id={sublisting.id}
-							blog_or_listing="sublisting_id"
-						/>
-					</Suspense>
-				</div>
-			</div>
 
 			<NewsletterBox_BeeHiiv />
 

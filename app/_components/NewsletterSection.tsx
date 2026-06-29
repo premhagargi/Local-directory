@@ -74,45 +74,44 @@ export default function NewsletterBox_BeeHiiv({
 	return (
 		<div
 			id="newsletter"
-			className={cn('w-full', className)}
+			className={cn('w-full py-16 md:py-20', className)}
 		>
-			<div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-				<div className="bg-background-secondary rounded-3xl p-8 md:p-16 lg:p-20 overflow-hidden relative border border-border">
-					<div className="mx-auto max-w-2xl text-center flex flex-col items-center">
-						<h2 className="text-3xl md:text-5xl font-heading font-extrabold tracking-tight text-foreground mb-4">
-							{title}
-						</h2>
-						<p className="text-lg text-text-secondary mb-8">
-							{description}
-						</p>
-						<div className="w-full max-w-md mx-auto">
-							{hasCookieConsent === true ? (
-								<Iframe
-									title="Newsletter Signup"
-									url={beeHiivEmbedUrl}
-									data-test-id="beehiiv-embed"
-									className="h-[60px] overflow-hidden w-full bg-transparent"
-								/>
-							) : (
-								<CookieConsentButton_Accept
-									buttonText="Accept Cookies to display Newsletter Signup"
-									className="h-12 w-full"
-									variant="default"
-								/>
-							)}
-						</div>
-						<p className="mt-4 text-xs text-muted-foreground">
-							{disclaimer}{' '}
-							<Link
-								href={linkToPrivacyPolicy}
-								className="font-medium hover:text-foreground transition-colors"
-							>
-								{textForPrivacyPolicy}
-							</Link>
-						</p>
+			<div className="max-w-[720px] mx-auto px-4 sm:px-6">
+				<div className="bg-white dark:bg-card rounded-[28px] border border-border/60 p-12 md:p-14 text-center">
+					<h2 className="text-[26px] md:text-[32px] font-bold tracking-tight text-foreground mb-3">
+						{title}
+					</h2>
+					<p className="text-[15px] text-text-secondary mb-8 max-w-md mx-auto leading-relaxed">
+						{description}
+					</p>
+					<div className="w-full max-w-sm mx-auto">
+						{hasCookieConsent === true ? (
+							<Iframe
+								title="Newsletter Signup"
+								url={beeHiivEmbedUrl}
+								data-test-id="beehiiv-embed"
+								className="h-[60px] overflow-hidden w-full bg-transparent"
+							/>
+						) : (
+							<CookieConsentButton_Accept
+								buttonText="Accept Cookies to display Newsletter Signup"
+								className="h-11 w-full rounded-full"
+								variant="default"
+							/>
+						)}
 					</div>
+					<p className="mt-5 text-[12px] text-text-secondary/70">
+						{disclaimer}{' '}
+						<Link
+							href={linkToPrivacyPolicy}
+							className="hover:text-foreground transition-colors underline underline-offset-2"
+						>
+							{textForPrivacyPolicy}
+						</Link>
+					</p>
 				</div>
 			</div>
 		</div>
 	);
 }
+

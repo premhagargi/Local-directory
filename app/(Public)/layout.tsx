@@ -14,7 +14,6 @@ export default function RootLayout({
 	return (
 		<section className="min-h-screen">
 			<Navbar_Public />
-
 			{children}
 		</section>
 	);

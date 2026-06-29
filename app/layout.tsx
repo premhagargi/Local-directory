@@ -6,7 +6,6 @@ import { Suspense } from 'react';
 // Import Components
 import CookieConsentBanner from '@/components/CookieConsentBanner';
 import { Toaster } from '@/ui/Toaster';
-import Footer from '@/components/Footer';
 // Import Functions & Actions & Hooks & State
 import createMetaData from '@/lib/createMetaData';
 import FeedbackDialog from '@/components/feedback/Dialog_Feedback';
@@ -39,7 +38,7 @@ export default function RootLayout({
 				src="https://analytics.eu.umami.is/script.js"
 				data-website-id={process.env.NEXT_PUBLIC_UMAMI_ID}
 			></Script>
-			<body className="bg-white text-foreground dark:bg-black dark:text-white">
+			<body className="bg-background text-foreground">
 				<section className="min-h-screen">
 					<main>{children}</main>
 					<Toaster />
@@ -47,7 +46,6 @@ export default function RootLayout({
 						<FeedbackDialog />
 					</Suspense>
 					<CookieConsentBanner />
-					<Footer />
 				</section>
 			</body>
 		</html>

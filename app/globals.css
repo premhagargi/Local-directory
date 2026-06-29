@@ -4,34 +4,36 @@
 
 @layer base {
     :root {
-      --background: 240 5% 96%; /* #f3f3f3 - AppStacks bg */
-      --background-secondary: 240 5% 93%; /* slightly darker for sections */
+      /* AppStacks exact color system — pure white background */
+      --background: 0 0% 100%;           /* #ffffff pure white - AppStacks main bg */
+      --background-secondary: 0 0% 98%; /* #fafafa very subtle off-white */
       --search-background: 0 0% 100%;
       --search-text: 0 0% 40%;
-      --dark-foreground: 0 0% 13%; /* #222 */
+      --dark-foreground: 0 0% 7%;        /* #111111 near-black */
       --light-red-bg: 354 76% 90%;
       --text-on-light-red: 353 69% 42%;
-      --foreground: 0 0% 13%; /* #222 - AppStacks dark text */
-      --text-secondary: 0 0% 45%; /* #737373 - AppStacks gray text */
-      --card: 0 0% 100%; /* #ffffff */
-      --card-foreground: 0 0% 13%;
+      --foreground: 0 0% 7%;             /* #111111 - primary text */
+      --text-secondary: 0 0% 44%;        /* #707070 - secondary text */
+      --card: 0 0% 100%;                 /* #ffffff - card bg */
+      --card-foreground: 0 0% 7%;
       --popover: 0 0% 100%;
-      --popover-foreground: 0 0% 13%;
-      --primary: 0 0% 13%; /* Dark primary like AppStacks CTA */
+      --popover-foreground: 0 0% 7%;
+      --primary: 0 0% 7%;               /* near-black CTA like AppStacks */
       --primary-foreground: 0 0% 100%;
-      --secondary: 0 0% 93%; /* #ededed - AppStacks pill bg */
-      --secondary-foreground: 0 0% 33%;
-      --muted: 0 0% 93%;
-      --muted-foreground: 0 0% 45%;
-      --accent: 0 0% 93%;
-      --accent-foreground: 0 0% 13%;
+      --secondary: 0 0% 95%;            /* light gray pill bg */
+      --secondary-foreground: 0 0% 30%;
+      --muted: 0 0% 95%;
+      --muted-foreground: 0 0% 44%;
+      --accent: 0 0% 95%;
+      --accent-foreground: 0 0% 7%;
       --destructive: 0 84.2% 60.2%;
       --destructive-foreground: 0 0% 98%;
-      --border: 0 0% 88%; /* #e0e0e0 - subtle borders */
-      --input: 0 0% 88%;
-      --ring: 0 0% 13%;
-      --radius: 16px;
+      --border: 0 0% 82.4%;             /* #d2d2d2 border as requested */
+      --input: 0 0% 82.4%;
+      --ring: 0 0% 7%;
+      --radius: 14px;
       --star-gradient-color: #ffc107;
+      --sidebar-width: 220px;
     }
   
     .dark {
@@ -54,8 +56,8 @@
       --accent-foreground: 0 0% 93%;
       --destructive: 0 62.8% 30.6%;
       --destructive-foreground: 0 85.7% 97.3%;
-      --border: 220 15% 20%;
-      --input: 220 15% 20%;
+      --border: 220 15% 24%;
+      --input: 220 15% 24%;
       --ring: 0 0% 80%;
       --star-gradient-color: #ffeb3b;
     }

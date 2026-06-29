@@ -4,7 +4,6 @@
 import { ListingType } from '@/supabase-special-types';
 // Import External Packages
 // Import Components
-import { Alert, AlertTitle, AlertDescription } from '@/ui/Alert';
 import ListingCard from '@/components/listings/ListingCard';
 import Pagination from '@/ui/Pagination';
 import { Input } from '@/ui/Input';
@@ -13,7 +12,7 @@ import usePagination from '@/lib/usePagination';
 import useClientAuth from '@/lib/useClientAuth';
 // Import Data
 // Import Assets & Icons
-import { AlertCircle } from 'lucide-react';
+import { SearchX } from 'lucide-react';
 
 export default function ListingGrid({
 	listings,
@@ -47,45 +46,41 @@ export default function ListingGrid({
 
 	const { userObject: user } = useClientAuth({});
 
+	// Beautiful empty state
+	const EmptyState = ({ message }: { message: string }) => (
+		<div className="col-span-full flex flex-col items-center justify-center py-24 text-center">
+			<div className="w-14 h-14 rounded-2xl bg-white border border-border flex items-center justify-center mb-5 shadow-sm">
+				<SearchX className="w-6 h-6 text-text-secondary" />
+			</div>
+			<h3 className="text-[16px] font-semibold text-foreground mb-2">
+				No listings found
+			</h3>
+			<p className="text-[14px] text-text-secondary max-w-xs leading-relaxed">
+				{message}
+			</p>
+		</div>
+	);
+
 	return (
 		<>
 			{listings.length === 0 ? (
-				<Alert
-					variant="destructive"
-					className="bg-white w-fit h-fit mx-auto col-span-full"
-				>
-					<AlertCircle className="h-4 w-4" />
-					<AlertTitle>No listings found</AlertTitle>
-					<AlertDescription>
-						There are currently no listings available in this category.
-					</AlertDescription>
-				</Alert>
+				<EmptyState message="There are currently no listings available in this category. Check back soon!" />
 			) : (
 				<>
 					{showSearch && (
-						<div className="w-full flex justify-end mt-8 mb-4">
+						<div className="w-full flex justify-end mb-5">
 							<Input
-								className="w-58"
+								className="w-52 h-8 text-sm rounded-full border-border bg-white"
 								placeholder="Filter by name..."
 								onChange={(e) => setSearchTerm(e.target.value || '')}
 							/>
 						</div>
 					)}
 					{currentData.length === 0 ? (
-						<Alert
-							variant="destructive"
-							className="bg-white w-fit h-fit mx-auto col-span-full"
-						>
-							<AlertCircle className="h-4 w-4" />
-							<AlertTitle>Ohh!</AlertTitle>
-							<AlertDescription>
-								It seems like we did not find any listings given search
-								parameters. <br /> Please change your filters. Thank you!
-							</AlertDescription>
-						</Alert>
+						<EmptyState message="No listings match your search. Try adjusting your filters." />
 					) : (
 						<div
-							className={`grid grid-cols-1 md:grid-cols-2 gap-y-12 gap-x-8 w-full ${maxCols >= 3 ? 'xl:grid-cols-3' : ''}`}
+							className={`grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-8 w-full ${maxCols >= 3 ? 'xl:grid-cols-3' : ''}`}
 						>
 							{currentData.map((listing) => (
 								<ListingCard key={listing.slug} listing={listing} user={user} />

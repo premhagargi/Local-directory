@@ -229,7 +229,7 @@ export default function ListingOverview({
 			id={stringToSlug(title)}
 			className={cn('w-full', className)}
 		>
-			<SubSectionInnerContainer className="w-full max-w-5xl mx-auto">
+			<SubSectionInnerContainer className="w-full max-w-none xl:max-w-none !mx-0">
 				{categoryNavigation && <SubSectionTitle>{title}</SubSectionTitle>}
 
 				<SubSectionContentContainer className="mt-6">

@@ -14,15 +14,11 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from '@/ui/Sheet';
-import { Combobox } from '@/ui/Combobox';
 import Searchbar from '@/components/Searchbar';
-import { Checkbox } from '@/ui/Checkbox';
 import { Label } from '@/ui/Label';
 import { Button } from '@/ui/Button';
-import { Badge } from '@/ui/Badge';
 // Import Functions & Actions & Hooks & State
 import { cn } from '@/lib/utils';
-// Import Data
 // Import Assets & Icons
 import { MenuIcon, X, ChevronUpIcon, Folder, icons } from 'lucide-react';
 import { Disclosure } from '@headlessui/react';
@@ -70,7 +66,7 @@ export function TagSearchBoxMobile({
 }
 
 /**
- * Renders a tag search box component.
+ * Renders a tag search box component — AppStacks sidebar style.
  * @param tags - An array of tags.
  */
 export function TagSearchBox({
@@ -207,9 +203,7 @@ export function TagSearchBox({
 	);
 
 	const groupedSelectables = clusterTagsByGroups(selectables);
-
 	const groupedSelected = clusterTagsByGroups(selected);
-
 	const groupedTags = clusterTagsByGroups(
 		tags.map((tag) => {
 			return {
@@ -219,128 +213,145 @@ export function TagSearchBox({
 		})
 	);
 
-	const valueLabelPairCategories = categories
-		.map((category) => {
-			return {
-				value: category.slug,
-				label: category.name,
-			};
-		})
-		.sort((a, b) => {
-			const nameA = a.label.toUpperCase();
-			const nameB = b.label.toUpperCase();
-			if (nameA < nameB) {
-				return -1;
-			}
-			if (nameA > nameB) {
-				return 1;
-			}
-			return 0;
-		});
-
-	const handleCategorySelect = (value: string) => {
-		const currentUrl = new URL(window.location.href);
-		const currentSearchParams = new URLSearchParams(currentUrl.search);
-
-		currentSearchParams.set('category', value);
-		const finalUrl = pathname + '?' + currentSearchParams.toString();
-		Router.push(finalUrl, { scroll: false });
-	};
+	// Color palette for category dot icons — matches AppStacks vibe
+	const colorPalette = [
+		'bg-blue-500',
+		'bg-purple-500',
+		'bg-rose-500',
+		'bg-amber-500',
+		'bg-emerald-500',
+		'bg-cyan-500',
+		'bg-orange-500',
+		'bg-pink-500',
+		'bg-violet-500',
+		'bg-teal-500',
+		'bg-red-500',
+		'bg-indigo-500',
+	];
 
 	return (
 		<div
 			className={cn(
-				'w-full max-w-[260px] h-fit bg-transparent text-foreground',
+				'w-full text-foreground',
 				className
 			)}
 		>
-			<div className="flex flex-col gap-y-6">
-				{/* Categories */}
-				<div className="flex flex-col gap-y-1">
-					<button
-						onClick={() => handleCategorySelect('')}
-						className={cn(
-							"flex items-center w-full px-4 py-2.5 rounded-full transition-all duration-200 group text-sm font-semibold",
-							!searchParams.get('category')
-								? "bg-white text-foreground shadow-sm" 
-								: "text-text-secondary hover:bg-black/5 hover:text-foreground"
-						)}
-					>
-						<Folder className={cn("w-4 h-4 mr-3 transition-opacity", !searchParams.get('category') ? "opacity-100 text-foreground" : "opacity-70 group-hover:opacity-100")} />
-						All Products
-					</button>
-					
-					{categories.map((category) => {
-						const isSelected = searchParams.get('category') === category.slug;
-						const IconComponent = category.icon ? (icons as any)[category.icon] || Folder : Folder;
-						
-						return (
-							<button
-								key={category.slug}
-								onClick={() => handleCategorySelect(category.slug)}
+			<div className="flex flex-col gap-y-0.5">
+				{/* All Products — AppStacks: pill selected state */}
+				<button
+					onClick={handleRemoveAllParams}
+					className={cn(
+						'flex items-center w-full px-3 py-2 rounded-[9px] transition-all duration-150 text-[13.5px] font-semibold text-left',
+						!searchParams.get('category')
+							? 'bg-black/[0.07] text-foreground'
+							: 'text-foreground/70 hover:bg-black/[0.04] hover:text-foreground'
+					)}
+				>
+					{/* Dot icon */}
+					<span className="w-5 h-5 rounded-full bg-black dark:bg-white flex items-center justify-center mr-2.5 flex-shrink-0">
+						<span className="w-2 h-2 rounded-full bg-white dark:bg-black" />
+					</span>
+					All Products
+				</button>
+
+				{/* Category list */}
+				{categories.map((category) => {
+					const isSelected = searchParams.get('category') === category.slug;
+					const IconComponent = category.icon
+						? (icons as any)[category.icon] || Folder
+						: Folder;
+					const colorIdx = category.name.charCodeAt(0) % colorPalette.length;
+					const iconBg = colorPalette[colorIdx];
+
+					return (
+						<button
+							key={category.slug}
+							onClick={() => {
+								const currentUrl = new URL(window.location.href);
+								const currentSearchParams = new URLSearchParams(currentUrl.search);
+								currentSearchParams.set('category', category.slug);
+								Router.push(pathname + '?' + currentSearchParams.toString(), {
+									scroll: false,
+								});
+							}}
+							className={cn(
+								'flex items-center w-full px-3 py-2 rounded-[9px] transition-all duration-150 text-[13.5px] font-semibold text-left',
+								isSelected
+									? 'bg-black/[0.07] text-foreground'
+									: 'text-foreground/70 hover:bg-black/[0.04] hover:text-foreground'
+							)}
+						>
+							<span
 								className={cn(
-									"flex items-center w-full px-4 py-2.5 rounded-full transition-all duration-200 group text-sm font-semibold",
-									isSelected 
-										? "bg-white text-foreground shadow-sm" 
-										: "text-text-secondary hover:bg-black/5 hover:text-foreground"
+									'w-5 h-5 rounded-full flex items-center justify-center mr-2.5 flex-shrink-0',
+									iconBg
 								)}
 							>
-								<IconComponent className={cn("w-4 h-4 mr-3 transition-opacity", isSelected ? "opacity-100 text-foreground" : "opacity-70 group-hover:opacity-100")} />
-								{category.name}
-							</button>
-						);
-					})}
-				</div>
+								<IconComponent className="w-3 h-3 text-white" />
+							</span>
+							{category.name}
+						</button>
+					);
+				})}
 
-				{/* Search */}
-				<div className="flex flex-col gap-y-2 pt-4">
-					<Searchbar
-						placeholder="Search listing..."
-						className="w-full bg-white border-border/50 text-foreground placeholder:text-gray-400 focus:bg-white rounded-full shadow-sm"
-						id="filter_search"
-					/>
-				</div>
+				{/* Divider */}
+				<div className="my-3 border-t border-border/40" />
 
-				{/* Tags */}
-				<div className="flex flex-col gap-y-1 pt-4">
-					<p className="text-xs font-bold uppercase tracking-wider text-text-secondary mb-2 px-4">Tags</p>
-					{Object.keys(groupedTags).map((tagGroupName) => (
-						<Disclosure key={tagGroupName} as="div" className="w-full">
-							{({ open }) => (
-								<>
-									<Disclosure.Button className="flex w-full justify-between items-center rounded-lg px-4 py-2 text-left text-sm font-semibold text-text-secondary hover:text-foreground transition-colors">
-										<span>{tagGroupName}</span>
-										<ChevronUpIcon
-											className={cn(
-												open ? 'rotate-180 transform' : '',
-												'h-4 w-4 transition-transform'
-											)}
-										/>
-									</Disclosure.Button>
-									<Disclosure.Panel className="px-4 pt-2 pb-4 text-sm text-text-secondary flex flex-col gap-y-3">
-										{groupedSelected[tagGroupName] &&
-											groupedSelected[tagGroupName].map((tag) => (
-												<div key={tag.label} className="flex items-center group cursor-pointer" onClick={() => handleSelect(tag.value, 'remove')}>
-													<div className="w-4 h-4 rounded-full bg-foreground flex items-center justify-center mr-3 transition-colors">
-														<X className="w-3 h-3 text-background" />
+				{/* Tags — collapsible groups */}
+				{Object.keys(groupedTags).length > 0 && (
+					<>
+						<p className="text-[11px] font-bold uppercase tracking-widest text-text-secondary mb-1 px-3 pt-1">
+							Tags
+						</p>
+						{Object.keys(groupedTags).map((tagGroupName) => (
+							<Disclosure key={tagGroupName} as="div" className="w-full">
+								{({ open }) => (
+									<>
+										<Disclosure.Button className="flex w-full justify-between items-center rounded-[9px] px-3 py-2 text-left text-[13px] font-semibold text-text-secondary hover:bg-black/[0.04] hover:text-foreground transition-colors">
+											<span>{tagGroupName}</span>
+											<ChevronUpIcon
+												className={cn(
+													open ? 'rotate-180 transform' : '',
+													'h-3.5 w-3.5 transition-transform'
+												)}
+											/>
+										</Disclosure.Button>
+										<Disclosure.Panel className="px-3 pt-1 pb-3 text-[13px] text-text-secondary flex flex-col gap-y-2.5">
+											{groupedSelected[tagGroupName] &&
+												groupedSelected[tagGroupName].map((tag) => (
+													<div
+														key={tag.label}
+														className="flex items-center group cursor-pointer"
+														onClick={() => handleSelect(tag.value, 'remove')}
+													>
+														<div className="w-3.5 h-3.5 rounded-full bg-foreground flex items-center justify-center mr-2.5 flex-shrink-0">
+															<X className="w-2.5 h-2.5 text-background" />
+														</div>
+														<Label className="text-foreground cursor-pointer font-medium text-[13px]">
+															{tag.label}
+														</Label>
 													</div>
-													<Label className="text-foreground cursor-pointer font-medium">{tag.label}</Label>
-												</div>
-											))}
-
-										{groupedSelectables[tagGroupName] &&
-											groupedSelectables[tagGroupName].map((tag) => (
-												<div key={tag.label} className="flex items-center group cursor-pointer" onClick={() => handleSelect(tag.value, 'add')}>
-													<div className="w-4 h-4 rounded-full border border-border group-hover:border-foreground flex items-center justify-center mr-3 transition-colors" />
-													<Label className="text-text-secondary group-hover:text-foreground cursor-pointer font-medium">{tag.label}</Label>
-												</div>
-											))}
-									</Disclosure.Panel>
-								</>
-							)}
-						</Disclosure>
-					))}
-				</div>
+												))}
+											{groupedSelectables[tagGroupName] &&
+												groupedSelectables[tagGroupName].map((tag) => (
+													<div
+														key={tag.label}
+														className="flex items-center group cursor-pointer"
+														onClick={() => handleSelect(tag.value, 'add')}
+													>
+														<div className="w-3.5 h-3.5 rounded-full border border-border group-hover:border-foreground flex items-center justify-center mr-2.5 flex-shrink-0 transition-colors" />
+														<Label className="text-text-secondary group-hover:text-foreground cursor-pointer font-medium text-[13px]">
+															{tag.label}
+														</Label>
+													</div>
+												))}
+										</Disclosure.Panel>
+									</>
+								)}
+							</Disclosure>
+						))}
+					</>
+				)}
 			</div>
 		</div>
 	);
