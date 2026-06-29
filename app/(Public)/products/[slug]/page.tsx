@@ -15,14 +15,9 @@ import ViewPixelSublisting from '@/components/tracking/ViewPixelSublisting';
 import Breadcrumps from '@/ui/Breadcrumps';
 import { Badge } from '@/ui/Badge';
 import {
-	SectionOuterContainer,
 	SectionTitle,
 	SectionDescription,
-	SubSectionOuterContainer,
-	SubSectionInnerContainer,
-	SubSectionTitle,
 } from '@/ui/Section';
-import GoogleMapsBox from '@/components/GoogleMapsBox';
 import NewsletterBox_BeeHiiv from '@/components/NewsletterSection';
 import getPublishedSublistingBySlug from '@/actions/sublistings/getPublishedSublistingBySlug';
 import CopyCouponCode from '../_components/CopyCouponCode';
@@ -133,15 +128,15 @@ export default async function SublistingPage({ params }: Props) {
 	if (!('id' in listingData)) return notFound();
 
 	return (
-		<SectionOuterContainer className="bg-background-secondary">
-			<SubSectionOuterContainer>
-				<SubSectionInnerContainer className="max-w-7xl items-center">
-					<div className="w-full self-start">
-						<Breadcrumps />
-					</div>
+		<main className="w-full min-h-screen bg-background-secondary py-10 md:py-20 px-4 xl:px-0">
+			<div className="w-full max-w-7xl mx-auto">
+				<div className="w-full mb-6">
+					<Breadcrumps />
+				</div>
 
+				<div className="w-full flex flex-col items-center justify-center">
 					{/* Centered Top Content (Logo, Title, Tags, Action Buttons) */}
-					<div className="w-full max-w-4xl self-center mx-auto mt-6 mb-8 px-4 flex flex-col items-center text-center">
+					<div className="w-full max-w-4xl mx-auto mt-6 mb-8 px-4 flex flex-col items-center text-center">
 						{listingData?.logo_image_url && (
 							<SupabaseImage
 								dbImageUrl={listingData.logo_image_url}
@@ -222,20 +217,20 @@ export default async function SublistingPage({ params }: Props) {
 
 					{/* Centered Screenshot */}
 					{sublisting.default_image_url && (
-						<div className="w-full max-w-4xl self-center mx-auto mb-10 px-4">
+						<div className="w-full max-w-4xl mx-auto mb-10 px-4 flex justify-center">
 							<SupabaseImage
 								dbImageUrl={sublisting.default_image_url}
 								width={1200}
 								height={630}
 								database="sublisting_images"
 								priority
-								className="w-full rounded-[14px] aspect-[1.91/1] object-cover shadow-sm bg-neutral-100 dark:bg-neutral-800"
+								className="w-full max-w-4xl rounded-[14px] aspect-[1.91/1] object-cover shadow-sm bg-neutral-100 dark:bg-neutral-800"
 							/>
 						</div>
 					)}
 
 					{/* Centered Description Content */}
-					<div className="w-full max-w-3xl self-center mx-auto px-4 mb-10">
+					<div className="w-full max-w-3xl mx-auto px-4 mb-10">
 						<SublistingActionBar
 							sublisting={sublisting}
 							className="mb-8 justify-center border-y border-border/40 py-4 gap-4 flex-wrap"
@@ -264,15 +259,15 @@ export default async function SublistingPage({ params }: Props) {
 							/>
 						</article>
 					</div>
-				</SubSectionInnerContainer>
-			</SubSectionOuterContainer>
+				</div>
+			</div>
 
 			<NewsletterBox_BeeHiiv />
 
 			{otherSublistingData?.length !== 0 && (
 				<div className="w-full  bg-white dark:bg-background-secondary">
 					<div className="max-w-5xl mx-auto my-10 px-2">
-						<SubSectionTitle>You May Also Like</SubSectionTitle>
+						<h2 className="text-2xl font-bold mb-6">You May Also Like</h2>
 
 						<div className="grid grid-cols-1 gap-4 md:grid-cols-2">
 							{otherSublistingData?.map((sublisting) => (
@@ -282,6 +277,6 @@ export default async function SublistingPage({ params }: Props) {
 					</div>
 				</div>
 			)}
-		</SectionOuterContainer>
+		</main>
 	);
 }
