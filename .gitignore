@@ -46,3 +46,4 @@ zzz_ignore
 ignore
 ignore.txt
 /app/_modules/__playground
+.env*
