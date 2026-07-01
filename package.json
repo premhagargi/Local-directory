@@ -8,7 +8,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"typegen": "npx supabase gen types typescript --project-id rijgssykfsgugwzkvpfk --schema public > app/_types/supabase.ts"
+		"typegen": "npx -y supabase@latest gen types typescript --project-id ccvncwuiokodiievlfpd --schema public > app/_types/supabase.ts"
 	},
 	"dependencies": {
 		"@aws-sdk/client-s3": "^3.1075.0",
@@ -16,6 +16,7 @@
 		"@hookform/resolvers": "^3.3.4",
 		"@mozilla/readability": "^0.5.0",
 		"@next/third-parties": "^14.2.8",
+		"@prisma/client": "^7.8.0",
 		"@radix-ui/react-accordion": "^1.2.0",
 		"@radix-ui/react-avatar": "^1.1.0",
 		"@radix-ui/react-checkbox": "^1.1.1",
@@ -79,6 +80,7 @@
 		"@types/mdx": "^2.0.13",
 		"eslint": "^8.57.0",
 		"eslint-config-next": "14.2.4",
+		"prisma": "^7.8.0",
 		"supabase": "^1.167.4"
 	}
 }
