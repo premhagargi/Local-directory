@@ -3,7 +3,6 @@
 	"version": "1.1.6",
 	"private": true,
 	"scripts": {
-		"predev": "npm run typegen",
 		"dev": "next",
 		"build": "next build",
 		"start": "next start",
@@ -80,7 +79,6 @@
 		"@types/mdx": "^2.0.13",
 		"eslint": "^8.57.0",
 		"eslint-config-next": "14.2.4",
-		"prisma": "^7.8.0",
-		"supabase": "^1.167.4"
+		"prisma": "^7.8.0"
 	}
 }
