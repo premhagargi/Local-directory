@@ -9,7 +9,7 @@ import createSupabaseBrowserClient from '@/lib/createSupabaseBrowserClient';
 const supabase = createSupabaseBrowserClient();
 
 export const listingParams = `
-    id, created_at, default_image_url, is_promoted, owner_id, slug, title, category_id, excerpt, average_rating, ratings_count, likes, views,updated_at, click_url, clicks, description, is_admin_published, is_user_published, discount_code_text, discount_code_percentage, discount_code, 
+    id, created_at, default_image_url, screenshot_urls, is_promoted, owner_id, slug, title, category_id, excerpt, average_rating, ratings_count, likes, views,updated_at, click_url, clicks, description, is_admin_published, is_user_published, discount_code_text, discount_code_percentage, discount_code,
     category:categories!inner(id, name, slug), logo_image_url,
     tags ( id, name, slug ),
     owner:users!owner_id(id, username, avatar_url)

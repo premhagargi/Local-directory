@@ -35,7 +35,7 @@ export default async function Page({
 				{/* Left Sidebar — full height, right border, fixed width */}
 				<aside className="hidden lg:flex flex-col flex-shrink-0 w-[260px] border-r-2 border-border sticky top-[64px] h-[calc(100vh-64px)] overflow-y-auto">
 					{/* Categories nav */}
-					<div className="flex-1 py-5 px-3">
+					<div className="flex-1 py-6 px-3">
 						<Suspense fallback={null}>
 							<TagSearchBox
 								tags={tagData.data}
@@ -63,10 +63,10 @@ export default async function Page({
 					{/* Hero — centered in main area */}
 					<div className="w-full pt-14 pb-12 text-center">
 						<div className="max-w-2xl mx-auto px-6">
-							<h1 className="text-[38px] sm:text-[44px] font-bold text-foreground tracking-tight leading-[1.12] mb-4 font-sans">
+							<h1 className="text-[38px] sm:text-[44px] font-normal text-foreground tracking-tight leading-[1.12] mb-4 font-sans">
 								{HERO_TITLE}
 							</h1>
-							<p className="text-[15px] text-text-secondary leading-relaxed mb-7 max-w-[500px] mx-auto">
+							<p className="text-[15px] text-text-secondary leading-relaxed mb-8 max-w-[500px] mx-auto">
 								{HERO_SLOGAN}
 							</p>
 							<div className="flex justify-center">
@@ -117,7 +117,7 @@ export default async function Page({
 
 						{/* Cards grid */}
 						<Suspense fallback={
-							<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-5 gap-y-8 w-full">
+							<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-10 w-full">
 								{Array.from({ length: 6 }, (_, i) => (
 									<div key={i} className="flex flex-col gap-3 animate-pulse">
 										<div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-[14px] aspect-[1.91/1]" />

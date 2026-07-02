@@ -236,20 +236,20 @@ export function TagSearchBox({
 				className
 			)}
 		>
-			<div className="flex flex-col gap-y-0.5">
+			<div className="flex flex-col gap-y-1">
 				{/* All Products — AppStacks: pill selected state */}
 				<button
 					onClick={handleRemoveAllParams}
 					className={cn(
-						'flex items-center w-full px-3 py-2 rounded-[9px] transition-all duration-150 text-[13.5px] font-semibold text-left',
+						'flex items-center w-full px-3 py-2.5 rounded-[9px] transition-all duration-150 text-[14px] font-semibold text-left',
 						!searchParams.get('category')
 							? 'bg-black/[0.07] text-foreground'
 							: 'text-foreground/70 hover:bg-black/[0.04] hover:text-foreground'
 					)}
 				>
 					{/* Dot icon */}
-					<span className="w-5 h-5 rounded-full bg-black dark:bg-white flex items-center justify-center mr-2.5 flex-shrink-0">
-						<span className="w-2 h-2 rounded-full bg-white dark:bg-black" />
+					<span className="w-6 h-6 rounded-full bg-black dark:bg-white flex items-center justify-center mr-3 flex-shrink-0">
+						<span className="w-2.5 h-2.5 rounded-full bg-white dark:bg-black" />
 					</span>
 					All Products
 				</button>
@@ -275,7 +275,7 @@ export function TagSearchBox({
 								});
 							}}
 							className={cn(
-								'flex items-center w-full px-3 py-2 rounded-[9px] transition-all duration-150 text-[13.5px] font-semibold text-left',
+								'flex items-center w-full px-3 py-2.5 rounded-[9px] transition-all duration-150 text-[14px] font-semibold text-left',
 								isSelected
 									? 'bg-black/[0.07] text-foreground'
 									: 'text-foreground/70 hover:bg-black/[0.04] hover:text-foreground'
@@ -283,11 +283,11 @@ export function TagSearchBox({
 						>
 							<span
 								className={cn(
-									'w-5 h-5 rounded-full flex items-center justify-center mr-2.5 flex-shrink-0',
+									'w-6 h-6 rounded-full flex items-center justify-center mr-3 flex-shrink-0',
 									iconBg
 								)}
 							>
-								<IconComponent className="w-3 h-3 text-white" />
+								<IconComponent className="w-3.5 h-3.5 text-white" />
 							</span>
 							{category.name}
 						</button>

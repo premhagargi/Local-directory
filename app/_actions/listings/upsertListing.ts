@@ -52,6 +52,7 @@ const ListingFormSchema = z.object({
 	discount_code_percentage: z.string().optional(),
 	discount_code: z.string().optional(),
 	logo_image_url: z.string().optional(),
+	screenshot_urls: z.array(z.string()).optional(),
 });
 
 const ListingTagsSchema = z.array(z.string());

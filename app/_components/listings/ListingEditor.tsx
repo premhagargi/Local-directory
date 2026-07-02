@@ -20,6 +20,7 @@ import Image from 'next/image';
 import { z } from 'zod';
 // Import Components
 import SupabaseImageUploadArea from '@/components/SupabaseImageUploadArea';
+import ListingScreenshotsField from '@/components/listings/ListingScreenshotsField';
 import { TagSelect } from '@/ui/TagSelect';
 import { Textarea } from '@/ui/Textarea';
 import { Switch } from '@/ui/Switch';
@@ -87,6 +88,7 @@ const ListingFormSchema = z.object({
 	discount_code_percentage: z.string().optional(),
 	discount_code: z.string().optional(),
 	logo_image_url: z.string().optional(),
+	screenshot_urls: z.array(z.string()).optional(),
 });
 
 const mdParser = new MarkdownIt();
@@ -178,6 +180,7 @@ export default function ListingEditor({
 			discount_code_percentage: listing?.discount_code_percentage ?? '',
 			discount_code: listing?.discount_code ?? '',
 			logo_image_url: listing?.logo_image_url ?? '',
+			screenshot_urls: listing?.screenshot_urls ?? [],
 		},
 	});
 
@@ -785,6 +788,34 @@ export default function ListingEditor({
 												Delete Logo
 											</Button>
 
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+
+								<FormField
+									control={form.control}
+									name="screenshot_urls"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Screenshots</FormLabel>
+											<FormDescription>
+												Extra product screenshots shown in a gallery on your
+												listing page.
+											</FormDescription>
+											<FormControl>
+												<ListingScreenshotsField
+													uid={userId}
+													urls={field.value ?? []}
+													onChange={(urls) =>
+														setValue('screenshot_urls', urls, {
+															shouldValidate: true,
+															shouldDirty: true,
+															shouldTouch: true,
+														})
+													}
+												/>
+											</FormControl>
 											<FormMessage />
 										</FormItem>
 									)}

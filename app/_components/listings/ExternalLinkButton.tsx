@@ -13,6 +13,7 @@ import { cn } from '@/utils';
 // Import Data
 import { COMPANY_BASIC_INFORMATION, GENERAL_SETTINGS } from '@/constants';
 // Import Assets & Icons
+import { GlobeIcon } from 'lucide-react';
 
 /**
  * A button component that opens an external link to a listing.
@@ -52,7 +53,8 @@ export default function ExternalLinkButton({
 			data-umami-event="External Link Clicked"
 			data-umami-event-listing={listing.slug}
 		>
-			Visit
+			<GlobeIcon className="w-4 h-4" />
+			<span className="pl-1.5">View</span>
 			<span className="hidden md:block pl-1">
 				{textVariant === 1 ? 'Website' : listing.title}
 			</span>

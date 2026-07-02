@@ -80,7 +80,7 @@ export default function ListingGrid({
 						<EmptyState message="No listings match your search. Try adjusting your filters." />
 					) : (
 						<div
-							className={`grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-8 w-full ${maxCols >= 3 ? 'xl:grid-cols-3' : ''}`}
+							className={`grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-10 w-full ${maxCols >= 3 ? 'xl:grid-cols-3' : ''}`}
 						>
 							{currentData.map((listing) => (
 								<ListingCard key={listing.slug} listing={listing} user={user} />

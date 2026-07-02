@@ -37,11 +37,11 @@ export default function ListingCard({
 			</Link>
 
 			{/* Screenshot Container — AppStacks large image tile */}
-			<div className="relative w-full rounded-[14px] overflow-hidden mb-3 bg-neutral-200 dark:bg-neutral-800 aspect-[1.91/1] transition-transform duration-200 group-hover:-translate-y-1 group-hover:shadow-lg">
+			<div className="relative w-full rounded-[14px] overflow-hidden mb-3 bg-neutral-200 dark:bg-neutral-800 aspect-[397/264] transition-transform duration-200 group-hover:-translate-y-1 group-hover:shadow-lg">
 				<SupabaseImage
 					dbImageUrl={listing.default_image_url}
-					width={1200}
-					height={628}
+					width={1191}
+					height={792}
 					database="listing_images"
 					priority
 					className="w-full h-full object-cover"

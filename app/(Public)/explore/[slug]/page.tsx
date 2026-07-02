@@ -9,6 +9,7 @@ import Link from 'next/link';
 // Import Components
 import ListingActionBar from '../_components/ListingActionBar';
 import ExternalLinkButton from '@/components/listings/ExternalLinkButton';
+import ListingGallery from '@/components/listings/ListingGallery';
 import CommentSystem from '@/components/comments/CommentSystem';
 import { useMDXComponents } from '@/mdx-components';
 import ListingCard from '@/components/listings/ListingCard';
@@ -161,26 +162,13 @@ export default async function ListingPage({ params }: Props) {
 	return (
 		<div className="w-full bg-background min-h-screen">
 			{/* Hero image gallery — AppStacks horizontal scroll */}
-			<div className="w-full overflow-x-auto">
-				<div className="flex gap-3 px-4 sm:px-6 py-6" style={{ width: 'max-content' }}>
-					{listing.default_image_url && (
-						<div
-							className="flex-shrink-0 rounded-[18px] overflow-hidden bg-neutral-200 dark:bg-neutral-800"
-							style={{ width: '580px', height: '365px' }}
-						>
-							<SupabaseImage
-								dbImageUrl={listing.default_image_url}
-								width={1160}
-								height={730}
-								database="listing_images"
-								priority
-								className="w-full h-full object-cover"
-								imageAlt={`${listing.title} cover image on ${COMPANY_BASIC_INFORMATION.NAME}`}
-							/>
-						</div>
-					)}
-				</div>
-			</div>
+			<ListingGallery
+				images={[
+					listing.default_image_url,
+					...(listing.screenshot_urls || []),
+				].filter((url): url is string => !!url)}
+				alt={`${listing.title} on ${COMPANY_BASIC_INFORMATION.NAME}`}
+			/>
 
 			{/* Main content — AppStacks editorial centered layout */}
 			<div className="max-w-[760px] mx-auto px-4 sm:px-6 pb-16">
@@ -188,10 +176,10 @@ export default async function ListingPage({ params }: Props) {
 				{GENERAL_SETTINGS.USE_VIEW && <ViewPixel listingId={listing.id} />}
 
 				{/* App header: logo + title + CTA button */}
-				<div className="flex items-start justify-between gap-4 mt-4 mb-5">
+				<div className="flex items-center justify-between gap-4 mt-2 mb-6">
 					<div className="flex items-center gap-3">
 						{listing.logo_image_url && (
-							<div className="w-10 h-10 rounded-[11px] overflow-hidden border border-border/50 bg-white flex-shrink-0 shadow-sm">
+							<div className="w-11 h-11 rounded-[12px] overflow-hidden border border-border/50 bg-white flex-shrink-0 shadow-sm">
 								<SupabaseImage
 									dbImageUrl={listing.logo_image_url}
 									width={80}
@@ -205,7 +193,7 @@ export default async function ListingPage({ params }: Props) {
 						)}
 						<div>
 							<div className="flex items-center gap-2">
-								<h1 className="text-[22px] font-bold text-foreground leading-tight">
+								<h1 className="text-[28px] font-bold text-foreground leading-tight tracking-tight">
 									{listing.title}
 								</h1>
 								{listing.owner_id && (
