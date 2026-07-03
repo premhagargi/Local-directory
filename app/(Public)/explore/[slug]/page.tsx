@@ -10,6 +10,7 @@ import Link from 'next/link';
 import ListingActionBar from '../_components/ListingActionBar';
 import ExternalLinkButton from '@/components/listings/ExternalLinkButton';
 import ListingGallery from '@/components/listings/ListingGallery';
+import ExploreSidebar from '@/components/ExploreSidebar';
 import CommentSystem from '@/components/comments/CommentSystem';
 import { useMDXComponents } from '@/mdx-components';
 import ListingCard from '@/components/listings/ListingCard';
@@ -160,7 +161,14 @@ export default async function ListingPage({ params }: Props) {
 	const tagGroups = clusterTagsByGroups(listing.tags, tagData);
 
 	return (
-		<div className="w-full bg-background min-h-screen">
+		<div className="w-full bg-background min-h-screen flex flex-col">
+			<div className="flex flex-1 min-h-0">
+
+			{/* Left Sidebar — same as the explore landing page */}
+			<ExploreSidebar />
+
+			{/* Main Content */}
+			<div className="flex-1 flex flex-col min-w-0">
 			{/* Hero image gallery — AppStacks horizontal scroll */}
 			<ListingGallery
 				images={[
@@ -193,7 +201,7 @@ export default async function ListingPage({ params }: Props) {
 						)}
 						<div>
 							<div className="flex items-center gap-2">
-								<h1 className="text-[28px] font-bold text-foreground leading-tight tracking-tight">
+								<h1 className="text-[28px] font-normal text-foreground leading-tight tracking-tight">
 									{listing.title}
 								</h1>
 								{listing.owner_id && (
@@ -252,7 +260,7 @@ export default async function ListingPage({ params }: Props) {
 				{/* Editorial "Get to know X" description — AppStacks style */}
 				{listing.description && (
 					<div>
-						<h2 className="text-[20px] font-bold text-foreground mb-6">
+						<h2 className="text-[20px] font-normal text-foreground mb-6">
 							Get to know {listing.title}
 						</h2>
 						<article className="prose prose-neutral dark:prose-invert max-w-none leading-[1.8] text-[15px]">
@@ -269,7 +277,7 @@ export default async function ListingPage({ params }: Props) {
 				{/* Listing info card */}
 				{listing.owner && (
 					<div className="mt-10 p-5 bg-white dark:bg-card rounded-[16px] border border-border/50">
-						<h3 className="text-[11px] font-bold uppercase tracking-widest text-text-secondary mb-4">
+						<h3 className="text-[11px] font-normal uppercase tracking-widest text-text-secondary mb-4">
 							Listing Info
 						</h3>
 						<div className="space-y-3">
@@ -329,7 +337,7 @@ export default async function ListingPage({ params }: Props) {
 			{/* Related listings */}
 			{listingData?.length !== 0 && (
 				<div className="max-w-[760px] mx-auto px-4 sm:px-6 pb-16">
-					<h2 className="text-[20px] font-bold text-foreground mb-6">
+					<h2 className="text-[20px] font-normal text-foreground mb-6">
 						You May Also Like
 					</h2>
 					<div className="grid grid-cols-1 gap-5 md:grid-cols-2">
@@ -339,6 +347,8 @@ export default async function ListingPage({ params }: Props) {
 					</div>
 				</div>
 			)}
+			</div>
+			</div>
 		</div>
 	);
 }

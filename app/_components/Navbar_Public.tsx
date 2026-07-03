@@ -72,7 +72,7 @@ export default function Navbar_Public() {
 										key={link.name}
 										href={link.href}
 										className={cn(
-											'relative flex items-center h-full px-3.5 text-[14px] font-medium transition-colors',
+											'relative flex items-center h-full px-3.5 text-[15px] font-normal transition-colors',
 											isActive
 												? 'text-foreground after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-foreground'
 												: 'text-text-secondary hover:text-foreground'

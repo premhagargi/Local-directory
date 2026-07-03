@@ -1,17 +1,16 @@
 'use client';
 
 // Import External Packages
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 // Import Components
 import SupabaseImage from '@/components/SupabaseImage';
 // Import Functions & Actions & Hooks & State
-import { cn } from '@/lib/utils';
 // Import Assets & Icons
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 
 /**
  * Horizontal scrolling screenshot gallery — AppStacks style.
- * Renders arrow navigation and a scroll-position track only when there's more than one image.
+ * When there's more than one image, renders a real, draggable scrollbar below
+ * the images (click the track to jump, drag the thumb to scroll). No arrows.
  */
 export default function ListingGallery({
 	images,
@@ -21,32 +20,57 @@ export default function ListingGallery({
 	alt: string;
 }) {
 	const scrollerRef = useRef<HTMLDivElement>(null);
-	const [canScrollLeft, setCanScrollLeft] = useState(false);
-	const [canScrollRight, setCanScrollRight] = useState(false);
+	const trackRef = useRef<HTMLDivElement>(null);
+	const draggingRef = useRef(false);
 	const [thumb, setThumb] = useState({ left: 0, width: 100 });
 
-	const updateScrollState = () => {
+	const updateThumb = useCallback(() => {
 		const el = scrollerRef.current;
 		if (!el) return;
 		const { scrollLeft, scrollWidth, clientWidth } = el;
 		const maxScroll = scrollWidth - clientWidth;
-		setCanScrollLeft(scrollLeft > 4);
-		setCanScrollRight(scrollLeft < maxScroll - 4);
 		setThumb({
 			left: maxScroll > 0 ? (scrollLeft / scrollWidth) * 100 : 0,
 			width: (clientWidth / scrollWidth) * 100,
 		});
-	};
+	}, []);
 
 	useEffect(() => {
-		updateScrollState();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [images.length]);
+		updateThumb();
+		const onResize = () => updateThumb();
+		window.addEventListener('resize', onResize);
+		return () => window.removeEventListener('resize', onResize);
+	}, [images.length, updateThumb]);
 
-	const scrollByPage = (direction: 1 | -1) => {
+	// Map a pointer X position on the track to a scroll offset (centres the thumb
+	// under the pointer) — this is what makes the bar behave like a real scrollbar.
+	const scrollToPointer = useCallback((clientX: number) => {
+		const track = trackRef.current;
 		const el = scrollerRef.current;
-		if (!el) return;
-		el.scrollBy({ left: direction * el.clientWidth * 0.9, behavior: 'smooth' });
+		if (!track || !el) return;
+		const rect = track.getBoundingClientRect();
+		const maxScroll = el.scrollWidth - el.clientWidth;
+		if (maxScroll <= 0) return;
+		const thumbWidthPx = (el.clientWidth / el.scrollWidth) * rect.width;
+		const travel = rect.width - thumbWidthPx;
+		if (travel <= 0) return;
+		let thumbLeft = clientX - rect.left - thumbWidthPx / 2;
+		thumbLeft = Math.max(0, Math.min(thumbLeft, travel));
+		el.scrollLeft = (thumbLeft / travel) * maxScroll;
+	}, []);
+
+	const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+		draggingRef.current = true;
+		trackRef.current?.setPointerCapture(e.pointerId);
+		scrollToPointer(e.clientX);
+	};
+	const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+		if (!draggingRef.current) return;
+		scrollToPointer(e.clientX);
+	};
+	const stopDragging = (e: React.PointerEvent<HTMLDivElement>) => {
+		draggingRef.current = false;
+		trackRef.current?.releasePointerCapture(e.pointerId);
 	};
 
 	if (images.length === 0) return null;
@@ -55,68 +79,56 @@ export default function ListingGallery({
 
 	return (
 		<div className="w-full">
-			<div className="relative">
+			<div
+				ref={scrollerRef}
+				onScroll={updateThumb}
+				className="w-full overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden"
+				style={{ scrollbarWidth: 'none' }}
+			>
 				<div
-					ref={scrollerRef}
-					onScroll={updateScrollState}
-					className="w-full overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden"
-					style={{ scrollbarWidth: 'none' }}
+					className="flex gap-3 px-4 sm:px-6 py-6"
+					style={{ width: 'max-content' }}
 				>
-					<div
-						className="flex gap-3 px-4 sm:px-6 py-6"
-						style={{ width: 'max-content' }}
-					>
-						{images.map((src, i) => (
-							<div
-								key={i}
-								className="flex-shrink-0 rounded-[18px] overflow-hidden bg-neutral-200 dark:bg-neutral-800"
-								style={{
-									width: multiple ? '580px' : '760px',
-									maxWidth: '85vw',
-									height: '365px',
-								}}
-							>
-								<SupabaseImage
-									dbImageUrl={src}
-									width={1160}
-									height={730}
-									database="listing_images"
-									priority={i === 0}
-									className="w-full h-full object-cover"
-									imageAlt={`${alt} screenshot ${i + 1}`}
-								/>
-							</div>
-						))}
-					</div>
+					{images.map((src, i) => (
+						<div
+							key={i}
+							className="flex-shrink-0 rounded-[18px] overflow-hidden bg-neutral-200 dark:bg-neutral-800"
+							style={{
+								width: multiple ? '763px' : '999px',
+								maxWidth: '90vw',
+								height: '480px',
+							}}
+						>
+							<SupabaseImage
+								dbImageUrl={src}
+								width={1160}
+								height={730}
+								database="listing_images"
+								priority={i === 0}
+								className="w-full h-full object-cover"
+								imageAlt={`${alt} screenshot ${i + 1}`}
+							/>
+						</div>
+					))}
 				</div>
-
-				{multiple && canScrollLeft && (
-					<button
-						onClick={() => scrollByPage(-1)}
-						aria-label="Scroll gallery left"
-						className="hidden sm:flex absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white border border-border shadow-md items-center justify-center text-foreground hover:bg-neutral-50 transition-colors"
-					>
-						<ChevronLeftIcon className="w-4 h-4" />
-					</button>
-				)}
-				{multiple && canScrollRight && (
-					<button
-						onClick={() => scrollByPage(1)}
-						aria-label="Scroll gallery right"
-						className="hidden sm:flex absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white border border-border shadow-md items-center justify-center text-foreground hover:bg-neutral-50 transition-colors"
-					>
-						<ChevronRightIcon className="w-4 h-4" />
-					</button>
-				)}
 			</div>
 
 			{multiple && (
-				<div className="w-full px-4 sm:px-6">
-					<div className="relative h-1 rounded-full bg-border/50 overflow-hidden">
+				<div className="w-full px-4 sm:px-6 pb-2">
+					{/* Real, draggable scrollbar (not just an indicator) */}
+					<div
+						ref={trackRef}
+						onPointerDown={onPointerDown}
+						onPointerMove={onPointerMove}
+						onPointerUp={stopDragging}
+						onPointerCancel={stopDragging}
+						role="scrollbar"
+						aria-label="Scroll gallery"
+						aria-orientation="horizontal"
+						className="group relative h-2 rounded-full bg-border/50 cursor-pointer touch-none select-none"
+					>
 						<div
-							className={cn(
-								'absolute top-0 h-full bg-foreground/30 rounded-full transition-[left] duration-150'
-							)}
+							className="absolute top-0 h-full bg-foreground/40 group-hover:bg-foreground/60 rounded-full"
 							style={{ width: `${thumb.width}%`, left: `${thumb.left}%` }}
 						/>
 					</div>

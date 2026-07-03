@@ -4,10 +4,8 @@ import { Suspense } from 'react';
 // Import Components
 import { SortDirectionBox } from '@/components/SortDirectionBox';
 import ListingOverview from '@/components/listings/ListingOverview';
-import {
-	TagSearchBox,
-	TagSearchBoxMobile,
-} from '@/components/tags/TagSearchBox';
+import { TagSearchBoxMobile } from '@/components/tags/TagSearchBox';
+import ExploreSidebar from '@/components/ExploreSidebar';
 import Footer from '@/components/Footer';
 import NewsletterBox_BeeHiiv from '@/components/NewsletterSection';
 import Searchbar from '@/components/Searchbar';
@@ -33,29 +31,7 @@ export default async function Page({
 			<div className="flex flex-1 min-h-0">
 
 				{/* Left Sidebar — full height, right border, fixed width */}
-				<aside className="hidden lg:flex flex-col flex-shrink-0 w-[260px] border-r-2 border-border sticky top-[64px] h-[calc(100vh-64px)] overflow-y-auto">
-					{/* Categories nav */}
-					<div className="flex-1 py-6 px-3">
-						<Suspense fallback={null}>
-							<TagSearchBox
-								tags={tagData.data}
-								categories={categoryData.data}
-								className="w-full max-w-none"
-							/>
-						</Suspense>
-					</div>
-
-					{/* Sidebar footer — AppStacks has attribution text at the bottom */}
-					<div className="px-4 py-5 border-t border-border/40">
-						<p className="text-[12px] text-text-secondary leading-relaxed">
-							The ultimate resource directory.<br />
-							Curated with ♥.
-						</p>
-						<p className="text-[12px] text-text-secondary mt-2">
-							All rights reserved {new Date().getFullYear()}
-						</p>
-					</div>
-				</aside>
+				<ExploreSidebar />
 
 				{/* Main Content */}
 				<div className="flex-1 flex flex-col min-w-0">

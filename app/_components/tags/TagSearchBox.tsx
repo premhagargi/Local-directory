@@ -241,7 +241,7 @@ export function TagSearchBox({
 				<button
 					onClick={handleRemoveAllParams}
 					className={cn(
-						'flex items-center w-full px-3 py-2.5 rounded-[9px] transition-all duration-150 text-[14px] font-semibold text-left',
+						'flex items-center w-full px-3 py-2.5 rounded-[9px] transition-all duration-150 text-[15px] font-normal text-left',
 						!searchParams.get('category')
 							? 'bg-black/[0.07] text-foreground'
 							: 'text-foreground/70 hover:bg-black/[0.04] hover:text-foreground'
@@ -275,7 +275,7 @@ export function TagSearchBox({
 								});
 							}}
 							className={cn(
-								'flex items-center w-full px-3 py-2.5 rounded-[9px] transition-all duration-150 text-[14px] font-semibold text-left',
+								'flex items-center w-full px-3 py-2.5 rounded-[9px] transition-all duration-150 text-[15px] font-normal text-left',
 								isSelected
 									? 'bg-black/[0.07] text-foreground'
 									: 'text-foreground/70 hover:bg-black/[0.04] hover:text-foreground'
@@ -307,7 +307,7 @@ export function TagSearchBox({
 							<Disclosure key={tagGroupName} as="div" className="w-full">
 								{({ open }) => (
 									<>
-										<Disclosure.Button className="flex w-full justify-between items-center rounded-[9px] px-3 py-2 text-left text-[13px] font-semibold text-text-secondary hover:bg-black/[0.04] hover:text-foreground transition-colors">
+										<Disclosure.Button className="flex w-full justify-between items-center rounded-[9px] px-3 py-2 text-left text-[14px] font-normal text-text-secondary hover:bg-black/[0.04] hover:text-foreground transition-colors">
 											<span>{tagGroupName}</span>
 											<ChevronUpIcon
 												className={cn(
