@@ -57,8 +57,8 @@ function OverviewLoading(params: {
 						<div className="w-full h-full min-w-48 min-h-48 bg-gray-200" />
 					</ImageCardImageContainer>
 					<ImageCardFooter className="grid space-y-2">
-						<ImageCardTitle className="text-gray-500">Loading</ImageCardTitle>
-						<ImageCardDescription className="text-gray-500">
+						<ImageCardTitle className="text-gray-600">Loading</ImageCardTitle>
+						<ImageCardDescription className="text-gray-600">
 							...
 						</ImageCardDescription>
 					</ImageCardFooter>
@@ -80,7 +80,7 @@ export default async function Page({
 	const keyValueListings = await getPublishedListingsAsKeyValuePair();
 
 	return (
-		<SectionOuterContainer className="bg-background-secondary">
+		<SectionOuterContainer className="bg-background">
 			<SubSectionOuterContainer className="md:py-10">
 				<SubSectionInnerContainer className="max-w-7xl">
 					<Breadcrumps />
@@ -96,7 +96,7 @@ export default async function Page({
 						</Suspense>
 						<div className="flex-grow">
 							<div className="flex flex-wrap sm:flex-nowrap justify-between">
-								<SectionTitle className="mx-0 max-w-none text-left">
+								<SectionTitle className="mx-0 max-w-none text-left font-normal font-sans">
 									All Products
 								</SectionTitle>
 
@@ -131,7 +131,7 @@ export default async function Page({
 					<AdSlot slot={`products-2`} />
 				</SubSectionInnerContainer>
 			</SubSectionOuterContainer>
-			<NewsletterBox_BeeHiiv className="bg-white dark:bg-background-secondary" />
+			<NewsletterBox_BeeHiiv className="border-t border-border/40" />
 		</SectionOuterContainer>
 	);
 }

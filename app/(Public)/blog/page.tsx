@@ -40,8 +40,8 @@ export default async function BlogOverviewPage() {
 	return (
 		<SectionOuterContainer className="max-w-4xl px-4">
 			<Breadcrumps />
-			<SectionTitle>Blog</SectionTitle>
-			<SectionDescription>
+			<SectionTitle className="font-normal font-sans">Blog</SectionTitle>
+			<SectionDescription className="text-gray-600">
 				Get the latest news about {COMPANY_BASIC_INFORMATION.NAME}, and the
 				latest listings.
 			</SectionDescription>
