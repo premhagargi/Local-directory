@@ -14,8 +14,17 @@ import {
 	handleServerSuccess,
 } from '@/lib/handlingServerResponses';
 
-const openai = new OpenAI({
-	apiKey: process.env.OPENAI_API_KEY,
+// Lazily instantiate the OpenAI client so importing this module during the
+// Next.js build (page-data collection) does not require OPENAI_API_KEY.
+// The client is only constructed on first property access, at request time.
+let openaiClient: OpenAI | null = null;
+const openai = new Proxy({} as OpenAI, {
+	get(_target, prop) {
+		if (!openaiClient) {
+			openaiClient = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+		}
+		return openaiClient[prop as keyof OpenAI];
+	},
 });
 
 /**
