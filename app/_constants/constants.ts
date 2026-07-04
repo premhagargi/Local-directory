@@ -241,7 +241,7 @@ export const SUBLISTINGS_SETTINGS = {
 
 // HERO
 
-export const HERO_TITLE = 'All Things ABC.';
+export const HERO_TITLE = 'Everything in One Place.';
 export const HERO_SLOGAN = 'The ultimate resource directory for XYZ.';
 
 // FOOTER

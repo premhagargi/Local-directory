@@ -168,7 +168,7 @@ export default function ListingEditor({
 		defaultValues: {
 			id: listing?.id ?? '',
 			title: listing?.title ?? '',
-			tagline: listing?.tagline ?? '',
+			tagline: (listing as { tagline?: string | null })?.tagline ?? '',
 			description: listing?.description ?? '',
 			excerpt: listing?.excerpt ?? '',
 			click_url: listing?.click_url ?? '',

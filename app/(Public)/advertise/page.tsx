@@ -18,7 +18,7 @@ import { COMPANY_BASIC_INFORMATION } from '@/constants';
 export default function AdvertisePage() {
 	return (
 		<SectionOuterContainer>
-			<SectionHeaderContainer>
+			<SectionHeaderContainer className="max-w-3xl px-4 xl:px-0">
 				<SectionTitle>
 					Succeed with {COMPANY_BASIC_INFORMATION.NAME}!
 				</SectionTitle>

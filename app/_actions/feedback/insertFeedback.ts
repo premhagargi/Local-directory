@@ -1,6 +1,7 @@
 'use server';
 
 // Import Types
+import { TablesInsert } from '@/supabase-types';
 // Import External Packages
 import { z } from 'zod';
 // Import Components
@@ -73,7 +74,9 @@ export default async function insertFeedback(
 
 		const supabase = createSupabaseRLSClient();
 
-		const { error } = await supabase.from('feedback').insert(formatedFormData);
+		const { error } = await supabase
+			.from('feedback')
+			.insert(formatedFormData as TablesInsert<'feedback'>);
 
 		if (error) {
 			console.error('Error storing feedback:', error);

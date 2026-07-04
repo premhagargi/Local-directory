@@ -171,6 +171,7 @@ export type Database = {
           emoji: string | null
           headline: string | null
           href: string | null
+          icon: string | null
           id: string
           image_url_hero: string | null
           image_url_small: string | null
@@ -185,6 +186,7 @@ export type Database = {
           emoji?: string | null
           headline?: string | null
           href?: string | null
+          icon?: string | null
           id?: string
           image_url_hero?: string | null
           image_url_small?: string | null
@@ -199,6 +201,7 @@ export type Database = {
           emoji?: string | null
           headline?: string | null
           href?: string | null
+          icon?: string | null
           id?: string
           image_url_hero?: string | null
           image_url_small?: string | null
@@ -388,6 +391,7 @@ export type Database = {
           logo_image_url: string | null
           owner_id: string | null
           ratings_count: number | null
+          screenshot_urls: string[] | null
           slug: string
           title: string
           updated_at: string | null
@@ -416,6 +420,7 @@ export type Database = {
           logo_image_url?: string | null
           owner_id?: string | null
           ratings_count?: number | null
+          screenshot_urls?: string[] | null
           slug: string
           title: string
           updated_at?: string | null
@@ -444,6 +449,7 @@ export type Database = {
           logo_image_url?: string | null
           owner_id?: string | null
           ratings_count?: number | null
+          screenshot_urls?: string[] | null
           slug?: string
           title?: string
           updated_at?: string | null

@@ -160,9 +160,9 @@ export default async function SublistingPage({ params }: Props) {
 
 						<SectionTitle className="mb-2">{sublisting.title}</SectionTitle>
 
-						{listingData?.tagline && (
+						{(listingData as { tagline?: string | null } | null)?.tagline && (
 							<p className="text-xl md:text-2xl font-heading text-muted-foreground mt-2 mb-4 leading-relaxed max-w-2xl">
-								{listingData.tagline}
+								{(listingData as { tagline?: string | null }).tagline}
 							</p>
 						)}
 

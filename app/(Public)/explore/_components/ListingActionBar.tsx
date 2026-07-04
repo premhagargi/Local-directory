@@ -46,7 +46,10 @@ function InfoDialog({ listing }: { listing: ListingType }) {
 				<Tooltip>
 					<TooltipTrigger asChild>
 						<DialogTrigger asChild>
-							<Button variant="outline" className="rounded-full p-2">
+							<Button
+								variant="outline"
+								className="rounded-full p-2 shadow-sm hover:shadow-md transition-shadow"
+							>
 								<InfoIcon size="20" />
 								<span className="sr-only">
 									See more statistics about this listing.
@@ -119,7 +122,10 @@ function ClaimDialog({ listing }: { listing: ListingType }) {
 				<Tooltip>
 					<TooltipTrigger asChild>
 						<DialogTrigger asChild>
-							<Button variant="outline" className="rounded-full p-2">
+							<Button
+								variant="outline"
+								className="rounded-full p-2 shadow-sm hover:shadow-md transition-shadow"
+							>
 								<FileKey2Icon size="20" />
 								<span className="sr-only">Claim this listing.</span>
 							</Button>
@@ -157,7 +163,10 @@ function PromoteDialog() {
 				<Tooltip>
 					<TooltipTrigger asChild>
 						<DialogTrigger asChild>
-							<Button variant="outline" className="rounded-full p-2">
+							<Button
+								variant="outline"
+								className="rounded-full p-2 shadow-sm hover:shadow-md transition-shadow"
+							>
 								<GemIcon size="20" />
 								<span className="sr-only">Promote this listing.</span>
 							</Button>

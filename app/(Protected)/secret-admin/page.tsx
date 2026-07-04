@@ -195,7 +195,7 @@ export default async function AccountPage() {
 										<CardTitle className="text-sm font-medium">
 											{stat.label}
 										</CardTitle>
-										<stat.icon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+										<stat.icon className="w-4 h-4 text-gray-600 dark:text-gray-400" />
 									</CardHeader>
 									<CardContent>
 										<div className="text-2xl font-bold">

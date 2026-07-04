@@ -34,16 +34,18 @@ export default async function Page({
 				<ExploreSidebar />
 
 				{/* Main Content */}
-				<div className="flex-1 flex flex-col min-w-0">
+				<div className="flex-1 flex flex-col min-w-0 border-l border-gray-300 dark:border-neutral-700">
 
 					{/* Hero — centered in main area */}
 					<div className="w-full pt-14 pb-12 text-center">
 						<div className="max-w-2xl mx-auto px-6">
-							<h1 className="text-[38px] sm:text-[44px] font-normal text-foreground tracking-tight leading-[1.12] mb-4 font-sans">
+							<h1 className="text-[32px] sm:text-[38px] font-normal text-foreground tracking-tight leading-[1.12] mb-1 font-sans">
 								{HERO_TITLE}
 							</h1>
-							<p className="text-[15px] text-text-secondary leading-relaxed mb-8 max-w-[500px] mx-auto">
-								{HERO_SLOGAN}
+							<p className="text-[15px] text-gray-600 leading-relaxed mb-8 max-w-[500px] mx-auto">
+								{HERO_SLOGAN} Discover, compare, and explore a hand-curated
+								collection of the best tools, apps, and resources — all in
+								one place.
 							</p>
 							<div className="flex justify-center">
 								<a

@@ -35,7 +35,7 @@ export default function Navbar_Public() {
 	return (
 		<Disclosure
 			as="nav"
-			className="w-full sticky top-0 z-50 bg-background border-b-2 border-border h-[64px] flex items-center"
+			className="w-full sticky top-0 z-50 bg-background border-b border-gray-300 dark:border-neutral-700 h-[64px] flex items-center"
 		>
 			{({ open }) => (
 				<div className="w-full px-4 sm:px-5">

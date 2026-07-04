@@ -27,7 +27,7 @@ export default async function getCategoryByCategoryId(categoryId: string) {
 		results = await supabase
 			.from('categories')
 			.select(
-				`id, name, slug, headline, description, image_url_hero, image_url_small, category_groups(id, name), emoji, color, href`
+				`id, name, slug, headline, description, image_url_hero, image_url_small, category_groups(id, name), emoji, icon, color, href`
 			)
 			.eq('id', categoryId)
 			.single();

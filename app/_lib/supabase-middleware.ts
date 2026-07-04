@@ -1,4 +1,4 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
+import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
 /**
@@ -20,57 +20,28 @@ export async function updateSession(request: NextRequest) {
 		{
 			cookies: {
 				/**
-				 * Retrieves the value of the specified cookie from the request.
-				 * @param name - The name of the cookie.
-				 * @returns The value of the cookie, or undefined if not found.
+				 * Retrieves all cookies from the request.
+				 * @returns An array of the request's cookies.
 				 */
-				get(name: string) {
-					return request.cookies.get(name)?.value;
+				getAll() {
+					return request.cookies.getAll();
 				},
 				/**
-				 * Sets a new cookie with the specified name, value, and options in both the request and response.
-				 * @param name - The name of the cookie.
-				 * @param value - The value of the cookie.
-				 * @param options - The options for the cookie.
+				 * Sets the provided cookies on both the request and a fresh response.
+				 * @param cookiesToSet - The cookies (name, value, options) to set.
 				 */
-				set(name: string, value: string, options: CookieOptions) {
-					request.cookies.set({
-						name,
-						value,
-						...options,
-					});
+				setAll(cookiesToSet) {
+					cookiesToSet.forEach(({ name, value }) =>
+						request.cookies.set(name, value)
+					);
 					response = NextResponse.next({
 						request: {
 							headers: request.headers,
 						},
 					});
-					response.cookies.set({
-						name,
-						value,
-						...options,
-					});
-				},
-				/**
-				 * Removes the specified cookie from both the request and response.
-				 * @param name - The name of the cookie to remove.
-				 * @param options - The options for the cookie.
-				 */
-				remove(name: string, options: CookieOptions) {
-					request.cookies.set({
-						name,
-						value: '',
-						...options,
-					});
-					response = NextResponse.next({
-						request: {
-							headers: request.headers,
-						},
-					});
-					response.cookies.set({
-						name,
-						value: '',
-						...options,
-					});
+					cookiesToSet.forEach(({ name, value, options }) =>
+						response.cookies.set(name, value, options)
+					);
 				},
 			},
 		}

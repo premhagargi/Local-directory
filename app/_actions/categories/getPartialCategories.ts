@@ -19,6 +19,7 @@ type partialCategory = {
 	id: string;
 	name: string;
 	slug: string;
+	icon: string | null;
 	category_groups: {
 		id: string;
 		name: string;
@@ -40,7 +41,7 @@ export default async function getPartialCategories(modifier: 'active' | 'all') {
 		} else if (modifier === 'all') {
 			results = await supabase
 				.from('categories')
-				.select(`id, name, slug, category_groups(id, name)`);
+				.select(`id, name, slug, icon, category_groups(id, name)`);
 		} else {
 			throw new BadRequestError('Invalid modifier.');
 		}

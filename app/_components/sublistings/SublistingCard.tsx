@@ -21,6 +21,38 @@ import { GENERAL_SETTINGS } from '@/constants';
 import { BadgePercentIcon } from 'lucide-react';
 // Import Assets & Icons
 
+// Fallback screenshots + names for dummy/seed products that have none yet.
+const FALLBACK_PRODUCT_IMAGES = [
+	'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1600&h=1600&q=80',
+	'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=1600&h=1600&q=80',
+	'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1600&h=1600&q=80',
+	'https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&w=1600&h=1600&q=80',
+	'https://images.unsplash.com/photo-1585386959984-a4155224a1ad?auto=format&fit=crop&w=1600&h=1600&q=80',
+	'https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=1600&h=1600&q=80',
+];
+
+const FALLBACK_PRODUCT_NAMES = [
+	'Aurora Wireless Buds',
+	'Nomad Leather Wallet',
+	'Everyday Ceramic Mug',
+	'Summit Trail Backpack',
+	'Lumen Desk Lamp',
+	'Drift Cotton Tee',
+	'Halo Smart Watch',
+	'Verde Plant Pot',
+	'Pulse Running Shoes',
+	'Cove Sunglasses',
+];
+
+// Stable hash so the fallback stays the same across re-renders.
+function hashSeed(seed: string) {
+	let hash = 0;
+	for (let i = 0; i < seed.length; i++) {
+		hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+	}
+	return hash;
+}
+
 /**
  * A card component that displays a sublisting.
  * @param sublisting - The sublisting to display.
@@ -33,6 +65,15 @@ export default function SublistingCard({
 	sublisting: SublistingType;
 	showAsRow?: boolean;
 }) {
+	const seed = sublisting.slug || sublisting.title || 'product';
+	const hash = hashSeed(seed);
+	const screenshotUrl =
+		sublisting.default_image_url ||
+		FALLBACK_PRODUCT_IMAGES[hash % FALLBACK_PRODUCT_IMAGES.length];
+	const displayTitle =
+		sublisting.title ||
+		FALLBACK_PRODUCT_NAMES[hash % FALLBACK_PRODUCT_NAMES.length];
+
 	return (
 		<ImageCard
 			linkHover
@@ -45,7 +86,7 @@ export default function SublistingCard({
 				)}
 			>
 				<SupabaseImage
-					dbImageUrl={sublisting.default_image_url}
+					dbImageUrl={screenshotUrl}
 					width={1600}
 					height={900}
 					database="sublisting_images"
@@ -102,8 +143,8 @@ export default function SublistingCard({
 					data-umami-event-sublisting={sublisting.slug}
 				/>
 				<div className="flex justify-between items-center h-7 overflow-hidden w-full">
-					<ImageCardTitle className="whitespace-nowrap">
-						{sublisting.title}
+					<ImageCardTitle className="whitespace-nowrap text-[15px] md:text-[15px] font-medium leading-tight tracking-normal">
+						{displayTitle}
 					</ImageCardTitle>
 					{/* @ts-ignore TODO : fix : Supabase Error: https://github.com/supabase/postgrest-js/issues/408#issuecomment-2175585000 */}
 					{!!sublisting.owner.discount_code_percentage && (
@@ -116,7 +157,9 @@ export default function SublistingCard({
 				</div>
 				<PriceDisplay sublisting={sublisting} />
 				{/* @ts-ignore TODO : fix : Supabase Error: https://github.com/supabase/postgrest-js/issues/408#issuecomment-2175585000 */}
-				<ImageCardDescription>{sublisting.owner.title}</ImageCardDescription>
+				<ImageCardDescription className="text-[13px] text-gray-600 text-left line-clamp-1">
+					{sublisting.owner.title}
+				</ImageCardDescription>
 			</ImageCardFooter>
 		</ImageCard>
 	);

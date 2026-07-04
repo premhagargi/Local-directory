@@ -5,6 +5,12 @@ import { Metadata } from 'next';
 import { SectionOuterContainer, SectionTitle } from '@/ui/Section';
 import { Alert, AlertTitle, AlertDescription } from '@/ui/Alert';
 import ListingEditor from '@/components/listings/ListingEditor';
+// Import Types
+import {
+	FullTagType,
+	CategoryType,
+	AuthUserType,
+} from '@/supabase-special-types';
 // Import Functions & Actions & Hooks & State
 import getListingByListingId from '@/actions/listings/getListingByListingId';
 import serverAuth from '@/actions/auth/serverAuth';
@@ -61,9 +67,9 @@ export default async function ListingEditorPage({
 			</SectionTitle>
 			<ListingEditor
 				listing={listingData.data}
-				tagChoices={tagData.data}
-				categoryChoices={categoryData.data}
-				userId={user.id}
+				tagChoices={tagData.data as FullTagType[]}
+				categoryChoices={categoryData.data as CategoryType[]}
+				userId={(user as AuthUserType).id}
 				isSuperAdmin={isSuperAdmin}
 			/>
 		</SectionOuterContainer>

@@ -43,8 +43,8 @@ function OverviewLoading(params: {
 						<div className="w-full h-full min-w-48 min-h-48 bg-gray-200" />
 					</ImageCardImageContainer>
 					<ImageCardFooter className="grid space-y-2">
-						<ImageCardTitle className="text-gray-500">Loading</ImageCardTitle>
-						<ImageCardDescription className="text-gray-500">
+						<ImageCardTitle className="text-gray-600">Loading</ImageCardTitle>
+						<ImageCardDescription className="text-gray-600">
 							...
 						</ImageCardDescription>
 					</ImageCardFooter>

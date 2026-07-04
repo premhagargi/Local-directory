@@ -40,6 +40,7 @@ export default function ListingScreenshotsField({
 								database="listing_images"
 								className="w-full h-full object-cover"
 								imageAlt={`Screenshot ${index + 1}`}
+								priority={false}
 							/>
 							<button
 								type="button"

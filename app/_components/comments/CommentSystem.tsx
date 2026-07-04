@@ -60,11 +60,11 @@ function Comment({
 							<span className="font-medium text-foreground">Anonymous</span>
 						)}
 
-						<time className="text-sm text-gray-500 dark:text-gray-400">
+						<time className="text-sm text-gray-600 dark:text-gray-400">
 							{formatPassedTime(commentObject.created_at)}
 						</time>
 					</div>
-					<p className="text-gray-500 dark:text-gray-400">
+					<p className="text-gray-600 dark:text-gray-400">
 						{commentObject.content}
 					</p>
 					{!isReply && (

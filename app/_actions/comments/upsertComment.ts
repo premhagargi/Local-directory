@@ -1,6 +1,7 @@
 'use server';
 
 // Import Types
+import { TablesInsert } from '@/supabase-types';
 // Import External Packages
 import { z } from 'zod';
 // Import Components
@@ -58,9 +59,9 @@ export default async function upsertComment(
 				validatedFields.data.blog_or_listing_id,
 		};
 
-		const { error: commentError } = await supabase.from('comments').insert({
-			...comment,
-		});
+		const { error: commentError } = await supabase
+			.from('comments')
+			.insert({ ...comment } as TablesInsert<'comments'>);
 
 		if (commentError) {
 			console.error('Error handling comment:', commentError);

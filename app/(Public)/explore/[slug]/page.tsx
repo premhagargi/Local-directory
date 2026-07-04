@@ -168,7 +168,7 @@ export default async function ListingPage({ params }: Props) {
 			<ExploreSidebar />
 
 			{/* Main Content */}
-			<div className="flex-1 flex flex-col min-w-0">
+			<div className="flex-1 flex flex-col min-w-0 border-l border-gray-300 dark:border-neutral-700">
 			{/* Hero image gallery — AppStacks horizontal scroll */}
 			<ListingGallery
 				images={[
@@ -201,7 +201,7 @@ export default async function ListingPage({ params }: Props) {
 						)}
 						<div>
 							<div className="flex items-center gap-2">
-								<h1 className="text-[28px] font-normal text-foreground leading-tight tracking-tight">
+								<h1 className="text-[32px] font-medium text-foreground leading-tight tracking-tight">
 									{listing.title}
 								</h1>
 								{listing.owner_id && (
@@ -221,14 +221,23 @@ export default async function ListingPage({ params }: Props) {
 					<ExternalLinkButton
 						listing={listing}
 						textVariant={1}
-						className="flex-shrink-0 rounded-full border border-border bg-white hover:bg-neutral-50 text-foreground text-[13px] font-medium shadow-sm"
+						className="flex-shrink-0 rounded-lg border border-gray-300 bg-white hover:bg-neutral-50 text-foreground text-[13px] font-medium px-3"
 					/>
 				</div>
 
 				{/* Excerpt / description short */}
-				{listing.excerpt && (
+				{(
 					<p className="text-[15px] text-foreground leading-relaxed mb-5">
-						{listing.excerpt}
+						{listing.excerpt ? `${listing.excerpt.trim().replace(/\.$/, '')}. ` : ''}
+						{`${listing.title} is a hand-picked ${
+							listing.category?.name
+								? listing.category.name.toLowerCase()
+								: 'resource'
+						} featured in the ${COMPANY_BASIC_INFORMATION.NAME} directory${
+							listing.excerpt
+								? ' — below you will find a quick overview plus a direct link so you can explore everything it has to offer'
+								: ". Here's a quick overview along with a direct link so you can explore everything it has to offer"
+						}.`}
 					</p>
 				)}
 
@@ -240,7 +249,7 @@ export default async function ListingPage({ params }: Props) {
 								<Link
 									key={tag.slug}
 									href={`/explore?tags=${stringToSlug(tag.name!)}`}
-									className="inline-flex items-center px-3 py-1 rounded-full border border-border bg-white text-[13px] text-foreground hover:border-foreground/40 transition-colors shadow-sm"
+									className="inline-flex items-center px-3 py-1 rounded-full border border-border bg-white text-[13px] text-foreground hover:border-foreground/40 hover:shadow-md shadow-sm transition-all"
 								>
 									{tag.name}
 								</Link>
@@ -250,7 +259,10 @@ export default async function ListingPage({ params }: Props) {
 				)}
 
 				{/* Action bar (like, share, etc.) */}
-				<ListingActionBar listing={listing} className="mb-6" />
+				<ListingActionBar
+						listing={listing}
+						className="mb-6 mx-0 justify-start md:justify-start max-w-none"
+					/>
 
 				{/* Coupon code if any */}
 				<CopyCouponCode listingData={listing} className="mb-6" />
@@ -260,10 +272,10 @@ export default async function ListingPage({ params }: Props) {
 				{/* Editorial "Get to know X" description — AppStacks style */}
 				{listing.description && (
 					<div>
-						<h2 className="text-[20px] font-normal text-foreground mb-6">
+						<h2 className="text-[22px] font-semibold text-foreground tracking-tight mb-4">
 							Get to know {listing.title}
 						</h2>
-						<article className="prose prose-neutral dark:prose-invert max-w-none leading-[1.8] text-[15px]">
+						<article className="prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-[1.7] prose-headings:font-semibold prose-headings:tracking-tight prose-h2:text-[19px] prose-h3:text-[17px] prose-p:text-text-secondary prose-a:text-blue-600 prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-img:rounded-xl prose-img:border prose-img:border-border/50">
 							<ArticleContent
 								source={listing.description}
 								components={{
@@ -274,9 +286,83 @@ export default async function ListingPage({ params }: Props) {
 					</div>
 				)}
 
-				{/* Listing info card */}
+				{/* Fallback description when the listing has none of its own */}
+					{!listing.description && (
+						<div>
+							<h2 className="text-[22px] font-semibold text-foreground tracking-tight mb-4">
+								Get to know {listing.title}
+							</h2>
+							<div className="text-[15px] text-text-secondary leading-[1.7] space-y-4">
+								<p>
+									{listing.title} is featured in the{' '}
+									{COMPANY_BASIC_INFORMATION.NAME} directory
+									{listing.category?.name
+										? ` under ${listing.category.name}`
+										: ''}
+									. We hand-pick listings like this so you can discover quality{' '}
+									{listing.category?.name
+										? listing.category.name.toLowerCase()
+										: 'tools and resources'}{' '}
+									without endless searching.
+								</p>
+								<p>
+									Use the button above to head straight to the official website,
+									where you&apos;ll find full details, pricing, and everything you
+									need to decide whether {listing.title} is the right fit for you.
+								</p>
+								<p>
+									Found this useful? Like it, share it, or keep exploring more
+									options in the same category using the links on this page.
+								</p>
+							</div>
+						</div>
+					)}
+
+					{/* Highlights — always shown so the page never feels empty */}
+					<div className="mt-10">
+						<h2 className="text-[22px] font-semibold text-foreground tracking-tight mb-4">
+							Highlights
+						</h2>
+						<ul className="grid sm:grid-cols-2 gap-3">
+							{[
+								{
+									label: 'Curated & verified',
+									desc: 'Hand-picked for the directory.',
+								},
+								{
+									label: 'Category',
+									desc: listing.category?.name || 'General listing',
+								},
+								{
+									label: 'Direct link',
+									desc: 'Straight to the official website.',
+								},
+								{
+									label: 'Free to explore',
+									desc: 'Browse anytime, no sign-up needed.',
+								},
+							].map((item) => (
+								<li
+									key={item.label}
+									className="flex items-start gap-3 p-4 rounded-[14px] border border-border/50 bg-white dark:bg-card"
+								>
+									<BadgeCheckIcon className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
+									<div>
+										<p className="text-[14px] font-medium text-foreground">
+											{item.label}
+										</p>
+										<p className="text-[13px] text-text-secondary">
+											{item.desc}
+										</p>
+									</div>
+								</li>
+							))}
+						</ul>
+					</div>
+
+					{/* Listing info card */}
 				{listing.owner && (
-					<div className="mt-10 p-5 bg-white dark:bg-card rounded-[16px] border border-border/50">
+					<div className="mt-10 p-5 bg-white dark:bg-card rounded-[16px] border border-border/50 shadow-sm">
 						<h3 className="text-[11px] font-normal uppercase tracking-widest text-text-secondary mb-4">
 							Listing Info
 						</h3>
@@ -315,7 +401,7 @@ export default async function ListingPage({ params }: Props) {
 					<ExternalLinkButton
 						listing={listing}
 						textVariant={2}
-						className="w-full rounded-full"
+						className="w-full rounded-full text-[15px] font-medium py-3 shadow-md hover:shadow-lg transition-shadow"
 					/>
 				</div>
 			</div>
@@ -337,7 +423,7 @@ export default async function ListingPage({ params }: Props) {
 			{/* Related listings */}
 			{listingData?.length !== 0 && (
 				<div className="max-w-[760px] mx-auto px-4 sm:px-6 pb-16">
-					<h2 className="text-[20px] font-normal text-foreground mb-6">
+					<h2 className="text-[22px] font-semibold text-foreground tracking-tight mb-6">
 						You May Also Like
 					</h2>
 					<div className="grid grid-cols-1 gap-5 md:grid-cols-2">

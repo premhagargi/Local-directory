@@ -18,7 +18,7 @@ export default async function ExploreSidebar() {
 	const categoryData = await getPartialCategories('active');
 
 	return (
-		<aside className="hidden lg:flex flex-col flex-shrink-0 w-[260px] border-r-2 border-border sticky top-[64px] h-[calc(100vh-64px)] overflow-y-auto">
+		<aside className="hidden lg:flex flex-col flex-shrink-0 w-[260px] sticky top-[64px] h-[calc(100vh-64px)] overflow-y-auto">
 			{/* Categories nav */}
 			<div className="flex-1 py-6 px-3">
 				<Suspense fallback={null}>

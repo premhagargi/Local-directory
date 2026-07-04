@@ -462,15 +462,15 @@ export function TagSearchBox({
 	return (
 		<div
 			className={cn(
-				'w-72 h-fit border border-neutral-300 rounded-md p-4',
+				'w-80 h-fit border border-border rounded-[14px] p-5 text-foreground shadow-md',
 				className
 			)}
 		>
-			<div className="flex justify-between pb-4">
-				<h2 className="text-4xl font-semibold text-foreground">Filter</h2>
+			<div className="flex justify-between items-center pb-4">
+				<h2 className="text-[15px] font-semibold text-foreground">Filter</h2>
 				<Button
 					variant="link"
-					className="self-end text-xs text-foreground"
+					className="h-auto p-0 text-[13px] text-text-secondary hover:text-foreground"
 					onClick={() => {
 						handleRemoveAllParams();
 						setRangeValue([0, 200]);
@@ -499,9 +499,11 @@ export function TagSearchBox({
 				</div>
 			</div>
 			<div className="grid group">
-				<div className="overflow-visible relative w-full flex flex-col items-start border-t border-b group-last:border-b-0 py-4">
+				<div className="overflow-visible relative w-full flex flex-col items-start border-t border-border/60 py-4">
 					<div className="w-full">
-						<p className="text-sm font-semibold py-2">Availability</p>
+						<p className="text-[11px] font-bold uppercase tracking-widest text-text-secondary py-2">
+							Availability
+						</p>
 						<div className="flex items-center">
 							<Switch
 								checked={availabilityChecked}
@@ -512,7 +514,7 @@ export function TagSearchBox({
 										setAvailabilityChecked(!availabilityChecked);
 								}}
 							/>
-							<Label className="ml-2 text-foreground">
+							<Label className="ml-2 text-[13px] text-foreground cursor-pointer">
 								Include Out Of Stock
 							</Label>
 						</div>
@@ -522,10 +524,10 @@ export function TagSearchBox({
 				{Object.keys(groupedSubcategories).map((categoryGroupName) => (
 					<div
 						key={categoryGroupName}
-						className="overflow-visible relative w-full flex flex-col items-start border-t border-b group-last:border-b-0 py-4"
+						className="overflow-visible relative w-full flex flex-col items-start border-t border-border/60 py-4"
 					>
 						<div className="w-full flex justify-between items-end">
-							<p className="text-sm font-semibold py-2">{categoryGroupName}</p>
+							<p className="text-[11px] font-bold uppercase tracking-widest text-text-secondary py-2">{categoryGroupName}</p>
 						</div>
 
 						<div className="grid space-y-2">
@@ -539,7 +541,7 @@ export function TagSearchBox({
 													handleSubcategorySelect(subcategory.value, 'remove');
 												}}
 											/>
-											<Label className="ml-2 text-foreground">
+											<Label className="ml-2 text-[13px] text-foreground cursor-pointer">
 												{subcategory.label}
 											</Label>
 										</div>
@@ -556,7 +558,7 @@ export function TagSearchBox({
 													handleSubcategorySelect(subcategory.value, 'add');
 												}}
 											/>
-											<Label className="ml-2 text-foreground">
+											<Label className="ml-2 text-[13px] text-foreground cursor-pointer">
 												{subcategory.label}
 											</Label>
 										</div>
@@ -569,10 +571,10 @@ export function TagSearchBox({
 				{Object.keys(groupedTags).map((tagGroupName) => (
 					<div
 						key={tagGroupName}
-						className="overflow-visible relative w-full flex flex-col items-start border-t border-b group-last:border-b-0 py-4"
+						className="overflow-visible relative w-full flex flex-col items-start border-t border-border/60 py-4"
 					>
 						<div className="w-full flex justify-between items-end">
-							<p className="text-sm font-semibold py-2">{tagGroupName}</p>
+							<p className="text-[11px] font-bold uppercase tracking-widest text-text-secondary py-2">{tagGroupName}</p>
 						</div>
 
 						<div className="grid space-y-2">
@@ -585,7 +587,7 @@ export function TagSearchBox({
 												handleSelect(tag.value, 'remove');
 											}}
 										/>
-										<Label className="ml-2 text-foreground">{tag.label}</Label>
+										<Label className="ml-2 text-[13px] text-foreground cursor-pointer">{tag.label}</Label>
 									</div>
 								))}
 
@@ -598,20 +600,20 @@ export function TagSearchBox({
 												handleSelect(tag.value, 'add');
 											}}
 										/>
-										<Label className="ml-2 text-foreground">{tag.label}</Label>
+										<Label className="ml-2 text-[13px] text-foreground cursor-pointer">{tag.label}</Label>
 									</div>
 								))}
 						</div>
 					</div>
 				))}
 
-				<div className="overflow-visible relative w-full flex flex-col items-start border-t border-b group-last:border-b-0 py-4">
+				<div className="overflow-visible relative w-full flex flex-col items-start border-t border-border/60 py-4">
 					<div className="w-full">
 						<div className="flex justify-between">
-							<p className="text-sm font-semibold py-2">Price</p>
+							<p className="text-[11px] font-bold uppercase tracking-widest text-text-secondary py-2">Price</p>
 							<Button
 								variant="link"
-								className="self-end text-xs text-foreground"
+								className="h-auto self-end p-0 text-[12px] text-text-secondary hover:text-foreground"
 								onClick={() => handleRangeSelect(rangeValues, 'add')}
 							>
 								Search in Price Range
@@ -637,9 +639,9 @@ export function TagSearchBox({
 					</div>
 				</div>
 
-				<div className="overflow-visible relative w-full flex flex-col items-start border-t border-b group-last:border-b-0 py-4">
+				<div className="overflow-visible relative w-full flex flex-col items-start border-t border-border/60 py-4">
 					<div className="w-full flex justify-between items-end">
-						<p className="text-sm font-semibold py-2">Keyword</p>
+						<p className="text-[11px] font-bold uppercase tracking-widest text-text-secondary py-2">Keyword</p>
 					</div>
 
 					<Searchbar
@@ -649,9 +651,9 @@ export function TagSearchBox({
 						rootPage="/products"
 					/>
 				</div>
-				<div className="overflow-visible relative w-full flex flex-col items-start border-t border-b group-last:border-b-0 py-4">
+				<div className="overflow-visible relative w-full flex flex-col items-start border-t border-border/60 py-4">
 					<div className="w-full flex justify-between items-end">
-						<p className="text-sm font-semibold py-2">Category</p>
+						<p className="text-[11px] font-bold uppercase tracking-widest text-text-secondary py-2">Category</p>
 					</div>
 					<Combobox
 						itemName="category"
@@ -663,9 +665,9 @@ export function TagSearchBox({
 					/>
 				</div>
 
-				<div className="overflow-visible relative w-full flex flex-col items-start border-t border-b group-last:border-b-0 py-4">
+				<div className="overflow-visible relative w-full flex flex-col items-start border-t border-border/60 py-4">
 					<div className="w-full flex justify-between items-end">
-						<p className="text-sm font-semibold py-2">Listings</p>
+						<p className="text-[11px] font-bold uppercase tracking-widest text-text-secondary py-2">Listings</p>
 					</div>
 
 					<Combobox

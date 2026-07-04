@@ -85,7 +85,7 @@ export default async function UserPage({ params }: UserPageProps) {
 					<div className="flex items-center space-x-4 mt-4 sm:mt-0">
 						<Link
 							href={data.website}
-							className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+							className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
 							prefetch={false}
 						>
 							<GlobeIcon className="w-5 h-5" />
